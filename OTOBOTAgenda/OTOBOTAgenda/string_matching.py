@@ -115,7 +115,7 @@ class Date:
         setAttr(instance_name, 'attribute_name', value) sebagai sebuah setter
     '''
 
-COURSE_REGEX = '[A-Z]{2}[0-9]{4}'
+COURSE_REGEX = '[A-Za-z]{2}[0-9]{4}'
 
 TASK_PENTING = ['Kuis', 'Ujian', 'Tucil', 'Tubes', 'Praktikum']
 # KATA_PENTING[i].lower() --> ngambil semuanya huruf kecil
@@ -131,6 +131,28 @@ class Task:
         self.tanggal = tanggal
         self.topik = topik
 
+    @staticmethod
+    def convert(string):
+        list_of_words = regex.split('\s', string)
+
+        for words in list_of_words:
+            if(words.capitalize() in TASK_PENTING):
+                jenis = words.capitalize()
+            elif(regex.findall(COURSE_REGEX, words)):
+                mata_kuliah = regex.findall(COURSE_REGEX, words)[0]
+            elif(regex.findall(DATE_REGEX, words)):
+                tanggal = string_to_date(words)
+            else:
+                topik = '' # masih dibutuhkan
+        return Task(jenis, mata_kuliah, tanggal, topik)
+
+    @staticmethod
+    def get_task_by_ID(id, task_list):
+        i = 0
+        for each_task in task_list:
+            if(each_task.ID == id): return i
+            i += 1
+        return -1
     ''' tambahkan '''
 
 KATA_PENTING = ['Deadline', 'Selesai', 'Diundur', 'Update', 'Task', 'Minggu', 'Hari', 
