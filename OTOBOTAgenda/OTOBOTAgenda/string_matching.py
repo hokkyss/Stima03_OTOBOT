@@ -4,7 +4,7 @@ ANYTHING = '.*'
 DAY_REGEX = '(0[1-9]|[1-2][0-9]|3[0-1])'
 MONTH_REGEX = '(0[1-9]|1[0-2])'
 YEAR_REGEX = '([0-9]{4})'
-DATE_DELIM = '[/]'
+DATE_DELIM = '[-/]'
 DATE_REGEX = DAY_REGEX + DATE_DELIM + MONTH_REGEX + DATE_DELIM + YEAR_REGEX
 
 class Date:
