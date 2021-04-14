@@ -27,6 +27,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="OTOBOTAgenda\main.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="OTOBOTAgenda\string_matching.py">
       <SubType>Code</SubType>
     </Compile>
