@@ -27,12 +27,11 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="OTOBOTAgenda\db_util.py" />
     <Compile Include="OTOBOTAgenda\main.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="OTOBOTAgenda\string_matching.py">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="OTOBOTAgenda\string_matching.py" />
     <Compile Include="runserver.py" />
     <Compile Include="OTOBOTAgenda\__init__.py" />
     <Compile Include="OTOBOTAgenda\views.py" />
