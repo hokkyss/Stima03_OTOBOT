@@ -1,0 +1,8 @@
+{ Pakai Database, jalankan cmd di direktori yang setara dengan Otobot.db }
+sqlite3 Otobot.db
+
+{ List Database }
+.database
+
+{ List Tabel }
+.table

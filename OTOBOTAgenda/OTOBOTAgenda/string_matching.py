@@ -155,4 +155,4 @@ class Task:
         return -1
     ''' tambahkan '''
 
-KATA_PENTING = ['Deadline', 'Selesai', 'Diundur', 'Update', 'Task', 'Minggu', 'Hari', 
+KATA_PENTING = ['Deadline', 'Selesai', 'Diundur', 'Update', 'Task', 'Minggu', 'Hari']
