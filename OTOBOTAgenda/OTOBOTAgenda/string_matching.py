@@ -117,7 +117,7 @@ class Date:
 
 COURSE_REGEX = '[A-Za-z]{2}[0-9]{4}'
 
-TASK_PENTING = ['Kuis', 'Ujian', 'Tucil', 'Tubes', 'Praktikum']
+KATA_PENTING = ['Kuis', 'Ujian', 'Tucil', 'Tubes', 'Praktikum']
 # KATA_PENTING[i].lower() --> ngambil semuanya huruf kecil
 # KATA_PENTING[i].capitalize() --> Kapital huruf pertama, sisanya huruf kecil
 class Task:
@@ -134,16 +134,23 @@ class Task:
     @staticmethod
     def convert(string):
         list_of_words = regex.split('\s', string)
-
+        jenis = None
+        mata_kuliah = None
+        tanggal = None
+        topik = None
         for words in list_of_words:
-            if(words.capitalize() in TASK_PENTING):
+            if(words.capitalize() in KATA_PENTING):
                 jenis = words.capitalize()
             elif(regex.findall(COURSE_REGEX, words)):
                 mata_kuliah = regex.findall(COURSE_REGEX, words)[0]
             elif(regex.findall(DATE_REGEX, words)):
-                tanggal = string_to_date(words)
+                tanggal = Date.string_to_date(words)
             else:
                 topik = '' # masih dibutuhkan
+
+        # ada yang gak terisi
+        if(jenis == None or mata_kuliah == None or tanggal == None or topik == None):
+            return None
         return Task(jenis, mata_kuliah, tanggal, topik)
 
     @staticmethod
@@ -155,4 +162,4 @@ class Task:
         return -1
     ''' tambahkan '''
 
-KATA_PENTING = ['Deadline', 'Selesai', 'Diundur', 'Update', 'Task', 'Minggu', 'Hari']
+# KATA_PENTING = ['Deadline', 'Selesai', 'Diundur', 'Update', 'Task', 'Minggu', 'Hari']
