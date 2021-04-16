@@ -33,7 +33,7 @@ def create_tabel_task():
 def add_new_task(task):
     # Menambahkan task baru
     # Task adalah objek kelas task
-    new_task = (task.ID, task.jenis, task.mata_kuliah, task.tanggal, task.topik)
+    new_task = (task.ID, task.jenis, task.mata_kuliah, str(task.tanggal), task.topik)
     db = get_db()
     cursor = db.cursor()
     try:

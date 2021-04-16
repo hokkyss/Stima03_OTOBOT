@@ -13,6 +13,9 @@ class Date:
         self.MM = M
         self.YYYY = Y
 
+    def __str__(self):
+        return "{:04d}-{:02d}-{:02d}".format(self.YYYY, self.MM, self.DD)
+
     @staticmethod
     def string_to_date(string):
         '''
