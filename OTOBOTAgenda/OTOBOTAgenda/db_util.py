@@ -189,7 +189,6 @@ def get_all_chat():
         return []
 
 def main():
-    '''
     # Isi main program
     # Init + hapus tabel
     db = get_db()
@@ -199,7 +198,7 @@ def main():
     # Buat Tabel
     create_tabel_task()
     create_tabel_chat()
-
+    '''
     # Tambah data
     task1 = Task("Tubes", "IF2110", "2021-04-15", "STRING MATCHING")
     task2 = Task("Tubes", "IF2110", "2021-04-28", "STRING MATCHING2")
