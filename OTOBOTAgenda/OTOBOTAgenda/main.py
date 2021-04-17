@@ -87,7 +87,66 @@ while(True):
     print(flag_tambah_task)
     print(get_all_task())
 
+    # tambah task baru
     if(flag_tambah_task):
         t = Task.convert(user_chat)
         add_new_task(t)
+
+    # tampilkan deadline antara 2 tanggal
+    elif(flag_deadline and flag_antara):
+        dates = regex.findall(DATE_REGEX, user_chat)
+        if(dates[0] < dates[1]):
+            date1 = dates[0]
+            date2 = dates[1]
+        else:
+            date1 = dates[1]
+            date2 = dates[0]
+
+        kata = None
+        for words in regex.split("\s", user_chat):
+            if(words in KATA_PENTING):
+                kata = words
+                break
+        tasks = get_task_between_date(date1, date2, include_completed=False, kata_penting=kata)
+        ''' tampilkan tasks di sini '''
+
+    # tampilkan deadline N minggu ke depan
+    elif(flag_deadline and flag_minggu):
+        kata = None
+        words = regex.split("\s", user_chat)
+        # cari kata penting
+        for word in words:
+            if(word in KATA_PENTING):
+                kata = word
+                break
+        # cari jumlah hari
+        for i in range(len(words)):
+            if(words[i + 1].capitalize() == 'Minggu'):
+                tasks = get_task_nextNWeeks(int(words[i]), include_completed=False, kata_penting=kata)
+        ''' tampilkan tasks di sini '''
+
+    # tampilkan deadline N hari ke depan
+    elif(flag_deadline and flag_hari):
+        kata = None
+        words = regex.split("\s", user_chat)
+        # cari kata penting
+        for word in words:
+            if(word in KATA_PENTING):
+                kata = word
+                break
+        # cari jumlah hari
+        for i in range(len(words)):
+            if(words[i + 1].capitalize() == 'Hari'):
+                tasks = get_task_nextNDays(int(words[i]), include_completed=False, kata_penting=kata)
+        ''' tampilkan tasks di sini '''
+
+    # tampilkan deadline hari ini
+    elif(flag_deadline and flag_hari_ini):
+        tasks = get_task_thisday(include_completed=True, kata_penting=None)
+        ''' tampilkan tasks di sini '''
+
+    # tampilkan semua deadline
+    elif(flag_deadline):
+        tasks = get_all_task(include_completed=False)
+        # tampilkan tasks di sini
 

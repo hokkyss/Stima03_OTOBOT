@@ -90,7 +90,7 @@ def get_task_nextNWeeks(NWeeks, include_completed = True, kata_penting = None):
     nextNDate = currDate + datetime.timedelta(weeks=NWeeks)
     return get_task_between_date(currDate, nextNDate, include_completed,kata_penting)
 
-def get_task_thisday(include_completed = True,kata_penting = None):
+def get_task_thisday(include_completed = True, kata_penting = None):
     currDate = datetime.date.today()
     return get_task_between_date(currDate, currDate, include_completed, kata_penting)
 
