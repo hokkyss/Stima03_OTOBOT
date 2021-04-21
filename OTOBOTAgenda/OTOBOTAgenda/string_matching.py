@@ -1,4 +1,14 @@
+from Sastrawi.StopWordRemover.StopWordRemoverFactory import StopWordRemoverFactory, StopWordRemover, ArrayDictionary
+from KMP_algorithm import kmpMatch
 import re as regex
+from Sastrawi.StopWordRemover.StopWordRemoverFactory import StopWordRemoverFactory
+
+# factory = StopWordRemoverFactory()
+newStopFactory = StopWordRemoverFactory().get_stop_words()
+newStopFactory.remove("sampai")
+stopword = StopWordRemover(ArrayDictionary(newStopFactory))
+
+# stopword = factory.create_stop_word_remover()
 
 ANYTHING = '.*'
 DAY_REGEX = '(0[1-9]|[1-2][0-9]|3[0-1])'
@@ -120,15 +130,12 @@ class Date:
 
 COURSE_REGEX = '[A-Za-z]{2}[0-9]{4}'
 
-KATA_PENTING = ['Kuis', 'Ujian', 'Tucil', 'Tubes', 'Praktikum']
+KATA_PENTING = ['Kuis', 'Ujian', 'Tucil', 'Tubes', 'Praktikum','Tugas']
+TUGAS = ['Tucil', 'Tubes','Tugas']
 # KATA_PENTING[i].lower() --> ngambil semuanya huruf kecil
 # KATA_PENTING[i].capitalize() --> Kapital huruf pertama, sisanya huruf kecil
 class Task:
-    num_of_task = 0
     def __init__(self, jenis, mata_kuliah, tanggal, topik):
-        self.ID = Task.num_of_task
-        Task.num_of_task += 1
-
         self.jenis = jenis
         self.mata_kuliah = mata_kuliah
         self.tanggal = tanggal
@@ -140,6 +147,7 @@ class Task:
         jenis = None
         mata_kuliah = None
         tanggal = None
+        tanggal2 = None
         topik = None
         for words in list_of_words:
             if(words.capitalize() in KATA_PENTING):
@@ -147,22 +155,18 @@ class Task:
             elif(regex.findall(COURSE_REGEX, words)):
                 mata_kuliah = regex.findall(COURSE_REGEX, words)[0]
             elif(regex.findall(DATE_REGEX, words)):
+                tanggal2 = words
                 tanggal = Date.string_to_date(words)
-            else:
-                topik = '' # masih dibutuhkan
-
+        
         # ada yang gak terisi
-        if(jenis == None or mata_kuliah == None or tanggal == None or topik == None):
+        if(jenis == None or mata_kuliah == None or tanggal == None):
             return None
+
+        # Asumsi topik selalu berada diantara nama matkul dan tanggal 
+        noStopword = stopword.remove(string)
+        topik = noStopword[kmpMatch(noStopword,mata_kuliah,True)+len(mata_kuliah):kmpMatch(noStopword,tanggal2,True)]
         return Task(jenis, mata_kuliah, tanggal, topik)
 
-    @staticmethod
-    def get_task_by_ID(id, task_list):
-        i = 0
-        for each_task in task_list:
-            if(each_task.ID == id): return i
-            i += 1
-        return -1
     ''' tambahkan '''
 
 # KATA_PENTING = ['Deadline', 'Selesai', 'Diundur', 'Update', 'Task', 'Minggu', 'Hari']

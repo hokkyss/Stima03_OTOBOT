@@ -1,3 +1,19 @@
+def kmpMatch_getAllMatchPattern(text,listOfPattern,caseSensitive=False):
+    """Mencari pattern apa saja yang muncul di text dari sekumpulan pattern
+
+    Args:
+        text (String): string yang akan dicari kemunculan pattern
+        listOfPattern (List<String>): kumpulan pattern 
+        caseSensitive (Boolean) : caseSensitive pattern terhadap string, default False
+
+    Returns:
+        List<Integer>: kumpulan pattern yang muncul pada suatu text, kosong jika tidak ada
+    """
+    result = []
+    for pattern in listOfPattern:
+        if(kmpMatch(text,pattern,caseSensitive)!= -1):
+            result.append(pattern)
+    return result
 
 def kmpMatch(text, pattern, caseSensitive=False):
     """Mencari kemunculan pertama pattern pada text

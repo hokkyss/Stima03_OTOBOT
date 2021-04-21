@@ -1,6 +1,8 @@
 from db_util import *
 from string_matching import *
 import re as regex
+from KMP_algorithm import *
+from BM_algorithm import *
 
 global flag_deadline
 global flag_antara
@@ -11,6 +13,7 @@ global flag_mata_kuliah
 global flag_undur
 global flag_selesai
 global flag_tambah_task
+global flag_tugas
 
 def process_string(string):
     global flag_deadline
@@ -22,6 +25,7 @@ def process_string(string):
     global flag_undur
     global flag_selesai
     global flag_tambah_task
+    global flag_tugas
 
     words = regex.split("\s", string)
     
@@ -69,6 +73,13 @@ def process_string(string):
     else:
         flag_tambah_task = True
 
+    # Cek flag tugas
+    if (len((kmpMatch_getAllMatchPattern(string,TUGAS,True)))) == 1:
+        flag_tugas = True
+    else :
+        flag_tugas = False
+    
+        
 while(True):
     flag_deadline = False
     flag_antara = False
@@ -79,6 +90,7 @@ while(True):
     flag_undur = False
     flag_selesai = False
     flag_tambah_task = False
+    flag_tugas = False
 
     user_chat = input()
     add_new_chat(user_chat)
@@ -145,8 +157,17 @@ while(True):
         tasks = get_task_thisday(include_completed=True, kata_penting=None)
         ''' tampilkan tasks di sini '''
 
+    elif(flag_deadline and flag_tugas and flag_mata_kuliah):
+        mata_kuliah = regex.findall(COURSE_REGEX,user_chat)[0]
+        jenis_tugas = kmpMatch_getAllMatchPattern(user_chat,TUGAS,True)[0].capitalize()
+        deadline = get_deadline(mata_kuliah,jenis_tugas)
+        print(deadline)
+        ''' tampilkan tasks di sini '''
+
     # tampilkan semua deadline
     elif(flag_deadline):
         tasks = get_all_task(include_completed=False)
         # tampilkan tasks di sini
+    else:
+        print("Command Tidak dikenali")
 

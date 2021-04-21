@@ -19,7 +19,7 @@ def create_tabel_task():
     cursor = db.cursor()
     try:
         cursor.execute("""CREATE TABLE task(
-            ID INT PRIMARY KEY NOT NULL,
+            ID INTEGER PRIMARY KEY,
             Jenis TEXT NOT NULL,
             Mata_Kuliah TEXT NOT NULL,
             Tanggal DATE NOT NULL,
@@ -33,12 +33,13 @@ def create_tabel_task():
 def add_new_task(task):
     # Menambahkan task baru
     # Task adalah objek kelas task
-    new_task = (task.ID, task.jenis, task.mata_kuliah, str(task.tanggal), task.topik)
+    new_task = (task.jenis, task.mata_kuliah, str(task.tanggal), task.topik)
     db = get_db()
     cursor = db.cursor()
+
     try:
-        cursor.execute("INSERT INTO task(ID, Jenis, Mata_Kuliah, Tanggal, Topik) VALUES (?, ?, ?, ?, ?)", new_task)
-        print("Berhasil menambahkan task (ID " + str(task.ID) + ") "+ task.jenis + " " + task.mata_kuliah + " " + task.topik)
+        cursor.execute("INSERT INTO task(Jenis, Mata_Kuliah, Tanggal, Topik) VALUES (?, ?, ?, ?)", new_task)
+        print("Berhasil menambahkan task (ID " + str(cursor.lastrowid) + ") "+ task.jenis + " " + task.mata_kuliah + " " + task.topik)
         db.commit()
     except sqlite3.Error as er:
         print(er)
@@ -90,20 +91,20 @@ def get_task_nextNWeeks(NWeeks, include_completed = True, kata_penting = None):
     nextNDate = currDate + datetime.timedelta(weeks=NWeeks)
     return get_task_between_date(currDate, nextNDate, include_completed,kata_penting)
 
-def get_task_thisday(include_completed = True, kata_penting = None):
+def get_task_thisday(include_completed = True,kata_penting = None):
     currDate = datetime.date.today()
     return get_task_between_date(currDate, currDate, include_completed, kata_penting)
 
-def get_deadline(mata_kuliah, kata_penting = None):
+def get_deadline(mata_kuliah, jenis_tugas = None):
     # mendapatkan semua deadline dari suatu tugas matkul tertentu
     db = get_db()
     cursor = db.cursor()
     try:
-        sql = "SELECT tanggal FROM task WHERE Mata_Kuliah = '" + mata_kuliah + "'"
-        if (kata_penting != None):
-            sql = sql + " AND (Jenis = '" + kata_penting + "')"
+        sql = "SELECT topik, tanggal FROM task WHERE Mata_Kuliah = '" + mata_kuliah + "'"
+        if (jenis_tugas != None):
+            sql = sql + " AND (Jenis = '" + jenis_tugas + "')"
         cursor.execute(sql)
-        print("Berhasil mendapatkan list deadline untuk " + (kata_penting if (kata_penting != None) else "tugas") + " " + mata_kuliah)
+        print("Berhasil mendapatkan list deadline untuk " + (jenis_tugas if (jenis_tugas != None) else "tugas") + " " + mata_kuliah)
         return cursor.fetchall()
     except sqlite3.Error as er:
         print(er)
@@ -189,6 +190,7 @@ def get_all_chat():
         return []
 
 def main():
+    '''
     # Isi main program
     # Init + hapus tabel
     db = get_db()
@@ -198,7 +200,7 @@ def main():
     # Buat Tabel
     create_tabel_task()
     create_tabel_chat()
-    '''
+
     # Tambah data
     task1 = Task("Tubes", "IF2110", "2021-04-15", "STRING MATCHING")
     task2 = Task("Tubes", "IF2110", "2021-04-28", "STRING MATCHING2")
@@ -231,7 +233,7 @@ def main():
     print(thisDay)
 
     # get deadline
-    deadline = get_deadline("IF2110", kata_penting="Tubes")
+    deadline = get_deadline("IF2110", jenis_tugas="Tubes")
     print(deadline)
 
     # Update deadline
@@ -242,7 +244,5 @@ def main():
     res = finish_task(1)
     print(res)
     '''
-
-
 # Main Program
 main()
