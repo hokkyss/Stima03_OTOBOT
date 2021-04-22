@@ -26,6 +26,7 @@ def create_tabel_task():
             Topik   TEXT NOT NULL,
             Selesai INT DEFAULT 0
         )""")
+        db.commit()
         print("Sukses membuat tabel task")
     except sqlite3.Error as er:
         print(er)
@@ -149,6 +150,17 @@ def finish_task(ID):
         print(er)
         return 0
 
+def dell_all_task():
+    # Menghapus semua task
+    db = get_db()
+    cursor = db.cursor()
+    try:
+        cursor.execute("DELETE FROM task")
+        db.commit()
+        create_tabel_task()
+        print("Berhasil menghapus semua task")
+    except sqlite3.Error as er:
+        print(er)
 
 def create_tabel_chat():
     # Membuat tabel chat
@@ -188,6 +200,20 @@ def get_all_chat():
     except sqlite3.Error as er:
         print(er)
         return []
+
+def dell_all_chat():
+    # Menghapus semua chat
+    db = get_db()
+    cursor = db.cursor()
+    try:
+        cursor.execute("DROP TABLE chat")
+        db.commit()
+        create_tabel_chat()
+        print("Berhasil menghapus semua chat ")
+        return 1
+    except sqlite3.Error as er:
+        print(er)
+        return -1
 
 def main():
     '''
@@ -246,3 +272,4 @@ def main():
     '''
 # Main Program
 main()
+
