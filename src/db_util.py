@@ -64,6 +64,8 @@ def get_all_task(include_completed = True):
 def get_task_between_date(date1, date2, include_completed = True, kata_penting = None):
     # Mendapatkan task diantara dua hari
     # date 1 dan date 2 harus valid formatnya, date haruslah bentuk string dari kelas date
+    date1 = str(date1)
+    date2 = str(date2)
     db = get_db()
     date_range = (date1, date2)
     cursor = db.cursor()
@@ -113,6 +115,7 @@ def get_deadline(mata_kuliah, jenis_tugas = None):
 
 def update_deadline(ID,date):
     # Melakukan update deadline suatu task, apabila sukses return 1 apabila gagal return 0
+    date = str(date)
     db = get_db()
     cursor = db.cursor()
     try:
