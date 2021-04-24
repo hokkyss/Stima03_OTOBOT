@@ -34,6 +34,7 @@ def create_tabel_task():
 def add_new_task(task):
     # Menambahkan task baru
     # Task adalah objek kelas task
+    # Return pesan sukses /gagal
     new_task = (task.jenis, task.mata_kuliah, str(task.tanggal), task.topik)
     db = get_db()
     cursor = db.cursor()
@@ -42,8 +43,10 @@ def add_new_task(task):
         cursor.execute("INSERT INTO task(Jenis, Mata_Kuliah, Tanggal, Topik) VALUES (?, ?, ?, ?)", new_task)
         print("Berhasil menambahkan task (ID " + str(cursor.lastrowid) + ") "+ task.jenis + " " + task.mata_kuliah + " " + task.topik)
         db.commit()
+        return("[TASK BERHASIL DICATAT]<br>(ID: "+ str(cursor.lastrowid) +") "+ str(task.tanggal)+" - "+ task.mata_kuliah +" - "+ task.jenis+" - "+ task.topik)
     except sqlite3.Error as er:
         print(er)
+        return ("Gagal menambahkan task")
 
 def get_all_task(include_completed = True):
     # Mendapatkan semua task
@@ -114,7 +117,7 @@ def get_deadline(mata_kuliah, jenis_tugas = None):
         return []
 
 def update_deadline(ID,date):
-    # Melakukan update deadline suatu task, apabila sukses return 1 apabila gagal return 0
+    # Melakukan update deadline suatu task, return pesan sukses /pesan kesalahan
     date = str(date)
     db = get_db()
     cursor = db.cursor()
@@ -125,14 +128,13 @@ def update_deadline(ID,date):
             cursor.execute(sql)
             print("Sukses merubah deadline task " + str(ID) + " menjadi " + date)
             db.commit()
-            return 1
-
+            return ("Sukses merubah deadline task " + str(ID) + " menjadi " + date)
         else:
             print("Task tidak dikenali")
-            return 0
+            return ("Tidak ada task dengan id tersebut")
     except sqlite3.Error as er:
         print(er)
-        return 0
+        return  ("Gagal mengupdate task")
 
 def finish_task(ID):
     db = get_db()
@@ -144,14 +146,13 @@ def finish_task(ID):
             cursor.execute(sql)
             print("Sukses menyelesaikan task " + str(ID))
             db.commit()
-            return 1
-
+            return ("Sukses menyelesaikan task " + str(ID))
         else:
             print("Task tidak dikenali")
-            return 0
+            return ("Tidak ada task dengan id tersebut")
     except sqlite3.Error as er:
         print(er)
-        return 0
+        return ("Gagal menyelesaikan task")
 
 def dell_all_task():
     # Menghapus semua task
@@ -218,7 +219,23 @@ def dell_all_chat():
         print(er)
         return -1
 
+def task_deadline_chatbuilder(listOfTask):
+    # Mereturn string dengan format /n diganti <br> untuk keperluan html
+    # Format isi string disesuaikan dengan spek
+    if(len(listOfTask)==0):
+        return("Tidak ada")
+    else:
+        result = "[Daftar Deadline]"
+        for count, task in enumerate(listOfTask, start=1):
+            result = result + "<br>"+str(count) +".  " +str(task.tanggal)+" - "+ task.mata_kuliah +" - "+ task.jenis+" - "+ task.topik
+    return result
+    
 def main():
+    create_tabel_task()
+    task1 = Task("Tubes", "IF2110", "2021-04-15", "STRING MATCHING")
+    add_new_task(task1)
+    all_task = get_all_task()
+    print(all_task)
     '''
     # Isi main program
     # Init + hapus tabel

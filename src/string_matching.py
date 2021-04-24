@@ -29,7 +29,7 @@ MONTH_REGEX = '(0[1-9]|1[0-2]|'+JANUARI_REGEX+'|'+FEBRUARI_REGEX+'|'+MARET_REGEX
 YEAR_REGEX = '([0-9]{4})'
 DATE_DELIM = '([-/ ])'
 DATE_REGEX = DAY_REGEX + DATE_DELIM + MONTH_REGEX + DATE_DELIM + YEAR_REGEX
-# print(regex.findall(DATE_REGEX,"11/02/2020"))
+# print(regex.findall(DATE_REGEX,"11/Januari/2020"))
 
 
 class Date:
@@ -186,7 +186,7 @@ class Task:
         topik = None
 
         # Pastikan hanya ada satu jenis task yang muncul di kalimat
-        allPattern =  kmpMatch_getAllMatchPattern(string,KATA_PENTING)
+        allPattern =  kmpMatch_getAllMatchPattern(string,KATA_PENTING,True)
         if (len(allPattern)==1):
             jenis = allPattern[0]
 
@@ -224,6 +224,6 @@ class Task:
 
 # KATA_PENTING = ['Deadline', 'Selesai', 'Diundur', 'Update', 'Task', 'Minggu', 'Hari']
 
-# A = Task.convert("Ingetin cok kalo ada Tubes IF2111 String Matching 22 Desember 2020")
-# print(A.tanggal)
-# print(A.topik)
+A = Task.convert("Ingetin cok kalo ada Tubes IF2111 String Matching 22 Desember 2020")
+print(A.tanggal)
+print(A.topik)

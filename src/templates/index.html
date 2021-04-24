@@ -12,7 +12,7 @@
 
 <div class="card card-bordered">
     <div class="card-header">
-        <h4 class="card-title"><strong>Chat</strong></h4>
+        <h4 class="card-title"><i class="fa fa-circle fa-xs mr-3" style="color:#63e4b6"></i><strong>Otobot Agenda</strong></h4>
     </div>
     <div class="ps-container ps-theme-default ps-active-y" id="chat-content" style="overflow-y: scroll !important; height:400px !important;">
         {% for message in messages %}
@@ -23,7 +23,7 @@
                 </div>
             </div>
             {% else %}
-            <div class="media media-chat"> <img class="avatar" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="...">
+            <div class="media media-chat"> <img class="avatar" src="{{ url_for('static',filename='images/Martz90-Circle-Contacts.ico') }}" alt="...">
                 <div class="media-body">
                     <p>{{ message[0] }}</p>
                 </div>
@@ -56,7 +56,7 @@
         socket.on('message', function (Msg) {
             console.log('Pesan berhasil diterima');
             $('#chat-content').append('<div class="media media-chat media-chat-reverse"><div class="media-body"><p>'+Msg[0]+'</p></div></div>');
-            $('#chat-content').append('<div class="media media-chat"><img class="avatar" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="..."><div class="media-body"><p>'+Msg[1]+'</p></div></div>');
+            $('#chat-content').append('<div class="media media-chat"><img class="avatar" src="'+'{{ url_for("static",filename="images/Martz90-Circle-Contacts.ico") }}'+'" alt="..."><div class="media-body"><p>'+Msg[1]+'</p></div></div>');
         });
         $('#sendbutton').on('click', function () {
             var myMsg = $('#myMessage').val();

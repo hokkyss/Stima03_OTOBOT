@@ -177,7 +177,7 @@ while(True):
         ''' tampilkan tasks di sini '''
 
     # Tampilkan deadline suatu tugas
-    elif(flag_deadline and flag_tugas and flag_mata_kuliah):
+    elif(flag_deadline and flag_tugas and flag_mata_kuliah and numOfActiveFlag == 3):
         mata_kuliah = regex.findall(COURSE_REGEX,user_chat)[0]
         jenis_tugas = kmpMatch_getAllMatchPattern(user_chat,TUGAS,True)[0].capitalize()
         deadline = get_deadline(mata_kuliah,jenis_tugas)
