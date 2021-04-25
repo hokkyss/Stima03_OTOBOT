@@ -18,7 +18,7 @@ def bMMatch_getAllMatchPattern(text,listOfPattern,caseSensitive=False):
             result.append(pattern)
     return result
     
-def bmMatch(text, pattern, caseSensitive=False):
+def bmMatch(text, pattern, notCaseSensitive=True):
     """Mencari kemunculan pertama pattern pada text
 
     Args:
@@ -30,7 +30,7 @@ def bmMatch(text, pattern, caseSensitive=False):
         Integer: Index pertama kemunculan pattern, -1 jika tidak ditemukan
     """
     
-    if caseSensitive:
+    if notCaseSensitive:
         text = text.lower()
         pattern = pattern.lower()
     

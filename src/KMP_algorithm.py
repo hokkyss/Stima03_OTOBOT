@@ -15,7 +15,7 @@ def kmpMatch_getAllMatchPattern(text,listOfPattern,caseSensitive=False):
             result.append(pattern)
     return result
 
-def kmpMatch(text, pattern, caseSensitive=False):
+def kmpMatch(text, pattern, notCaseSensitive=True):
     """Mencari kemunculan pertama pattern pada text
 
     Args:
@@ -26,7 +26,7 @@ def kmpMatch(text, pattern, caseSensitive=False):
     Returns:
         Integer: Index pertama kemunculan pattern, -1 jika tidak ditemukan
     """
-    if caseSensitive:
+    if notCaseSensitive:
         text = text.lower()
         pattern = pattern.lower()
        

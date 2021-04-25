@@ -10,10 +10,12 @@ global flag_hari_ini
 global flag_hari
 global flag_minggu
 global flag_mata_kuliah
-global flag_undur
+global flag_ubah
 global flag_selesai
 global flag_tambah_task
 global flag_tugas
+global flag_task_id
+global flag_date
 
 def process_string(string):
     global flag_deadline
@@ -22,10 +24,12 @@ def process_string(string):
     global flag_hari
     global flag_minggu
     global flag_mata_kuliah
-    global flag_undur
+    global flag_ubah
     global flag_selesai
     global flag_tambah_task
     global flag_tugas
+    global flag_task_id
+    global flag_date
 
     # Flag deadline akan aktif apabila terdapat kata "deadline" di string
     if (kmpMatch(string,"Deadline",True) != -1):
@@ -71,8 +75,35 @@ def process_string(string):
     else:
         flag_mata_kuliah = True
 
-    # flag_undur
+    # flag_ubah
+    ubah = regex.findall("[Uu]ndur|[Tt]unda|[Mm]aju|[Uu]bah|[Gg]anti|[Uu]pdate", string)
+    if ubah == []:
+        flag_ubah = False
+    else:
+        flag_ubah = True
+        
+    # flag_task_id
+    task_id = regex.findall("[Tt]ask[\s]*\d",string)    # Biar diproses kalau ada task id
+    if task_id == []:
+        flag_task_id = False
+    else:
+        flag_task_id = True
+        
+    # flag_date
+    date = Date.find_all_dates_in(string) # Biar diproses kalau ada hari
+    if date == []:
+        flag_date = False
+    else:
+        flag_date = True
+    
     # flag_selesai
+    selesai = regex.findall("[Ss]elesai|[Bb]eres|[Tt]amat|[Kk]elar",string)
+    if selesai == []:
+        flag_selesai = False
+    else:
+        flag_selesai = True
+    
+    
 
     # flag task akan aktif apabila objek task bisa di generate dari string
     task = Task.convert(string)
@@ -95,15 +126,17 @@ while(True):
     flag_hari = False
     flag_minggu = False
     flag_mata_kuliah = False
-    flag_undur = False
+    flag_ubah = False
     flag_selesai = False
     flag_tambah_task = False
     flag_tugas = False
+    flag_task_id = False
+    flag_date = False
 
     user_chat = input()
     add_new_chat(user_chat)
     process_string(user_chat)
-    listOfFlag = [flag_deadline,flag_antara,flag_hari_ini,flag_hari,flag_minggu,flag_mata_kuliah,flag_undur,flag_selesai,flag_tambah_task,flag_tugas]
+    listOfFlag = [flag_deadline,flag_antara,flag_hari_ini,flag_hari,flag_minggu,flag_mata_kuliah,flag_ubah,flag_selesai,flag_tambah_task,flag_tugas, flag_task_id, flag_date]
     numOfActiveFlag = listOfFlag.count(True)
 
     print(flag_deadline,flag_mata_kuliah,flag_tugas)
@@ -189,6 +222,28 @@ while(True):
         tasks = get_all_task(include_completed=False)
         print(tasks)
         # tampilkan tasks di sini
+    
+    
+    elif(flag_ubah and flag_task_id and flag_date):
+        dates = Date.find_all_dates_in(user_chat)
+        date = dates[0] # Asumsikan selalu ambil date yang pertama muncul
+        
+        task = regex.findall("[Tt]ask[\s]*\d",user_chat)    # Biar diproses kalau ada task id
+        task_id = regex.findall("\d",user_chat)[0]
+        
+        update_deadline(task_id,date)   # Update database
+    
+    elif (flag_selesai and flag_task_id):
+        task = regex.findall("[Tt]ask[\s]*\d",user_chat)    # Biar diproses kalau ada task id
+        task_id = regex.findall("\d",user_chat)[0]
+        
+        finish_task(task_id) # Update database
+        
+        
+    
     else:
         print("Command Tidak dikenali")
+        
+        
+    
 
