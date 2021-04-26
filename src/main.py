@@ -1,8 +1,7 @@
 from db_util import *
 from string_matching import *
 import re as regex
-from KMP_algorithm import *
-from BM_algorithm import *
+from string_matching_algorithm import *
 
 global flag_deadline
 global flag_antara
@@ -83,7 +82,7 @@ def process_string(string):
         flag_ubah = True
         
     # flag_task_id
-    task_id = regex.findall("[Tt]ask[\s]*\d",string)    # Biar diproses kalau ada task id
+    task_id = regex.findall("[Tt]ask[\s]*\d+",string)    # Biar diproses kalau ada task id
     if task_id == []:
         flag_task_id = False
     else:
@@ -118,7 +117,8 @@ def process_string(string):
     else :
         flag_tugas = False
     
-        
+
+    
 while(True):
     flag_deadline = False
     flag_antara = False
@@ -228,14 +228,14 @@ while(True):
         dates = Date.find_all_dates_in(user_chat)
         date = dates[0] # Asumsikan selalu ambil date yang pertama muncul
         
-        task = regex.findall("[Tt]ask[\s]*\d",user_chat)    # Biar diproses kalau ada task id
-        task_id = regex.findall("\d",user_chat)[0]
+        task = regex.findall("[Tt]ask[\s]*\d+",user_chat)    # Biar diproses kalau ada task id
+        task_id = regex.findall("\d+",user_chat)[0]
         
         update_deadline(task_id,date)   # Update database
     
     elif (flag_selesai and flag_task_id):
-        task = regex.findall("[Tt]ask[\s]*\d",user_chat)    # Biar diproses kalau ada task id
-        task_id = regex.findall("\d",user_chat)[0]
+        task = regex.findall("[Tt]ask[\s]*\d+",user_chat)    # Biar diproses kalau ada task id
+        task_id = regex.findall("\d+",user_chat)[0]
         
         finish_task(task_id) # Update database
         

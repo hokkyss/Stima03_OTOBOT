@@ -1,5 +1,5 @@
 from Sastrawi.StopWordRemover.StopWordRemoverFactory import StopWordRemoverFactory, StopWordRemover, ArrayDictionary
-from KMP_algorithm import *
+from string_matching_algorithm import *
 import re as regex
 from Sastrawi.StopWordRemover.StopWordRemoverFactory import StopWordRemoverFactory
 
