@@ -63,6 +63,21 @@ def get_all_task(include_completed = True):
         print(er)
         return []
 
+def get_all_task_by_mata_kuliah(mata_kuliah,include_completed = True):
+    # Mendapatkan semua task
+    db = get_db()
+    cursor = db.cursor()
+    sql = "SELECT * FROM task WHERE Mata_Kuliah = '" + mata_kuliah + "'"
+    try:
+        if (include_completed):
+            sql = sql + " AND Selesai = 1"
+        cursor.execute(sql)
+        print("Berhasil mendapatkan semua task dengan mata kuliah " + str(mata_kuliah))
+        return cursor.fetchall()
+    except sqlite3.Error as er:
+        print(er)
+        return []
+
 
 def get_task_between_date(date1, date2, include_completed = True, kata_penting = None):
     # Mendapatkan task diantara dua hari
@@ -219,15 +234,37 @@ def dell_all_chat():
         print(er)
         return -1
 
-def task_deadline_chatbuilder(listOfTask):
+def task_deadline_completeChatbuilder(listOfTaskQuery):
     # Mereturn string dengan format /n diganti <br> untuk keperluan html
     # Format isi string disesuaikan dengan spek
-    if(len(listOfTask)==0):
+    if(len(listOfTaskQuery)==0):
         return("Tidak ada")
     else:
-        result = "[Daftar Deadline]"
-        for count, task in enumerate(listOfTask, start=1):
-            result = result + "<br>"+str(count) +".  " +str(task.tanggal)+" - "+ task.mata_kuliah +" - "+ task.jenis+" - "+ task.topik
+        result = "[Berhasil semua Task]"
+        for count, task in enumerate(listOfTaskQuery, start=1):
+            result = result + "<br>"+str(count) +".  " +str(task[3])+" - "+ task[2] +" - "+ task[1]+" - "+ task[4] + "-" + ("selesai" if task[5] == 1 else "belum selesai")
+    return result
+
+def task_deadline_chatbuilder(listOfTaskQuery):
+    # Mereturn string dengan format /n diganti <br> untuk keperluan html
+    # Format isi string disesuaikan dengan spek
+    if(len(listOfTaskQuery)==0):
+        return("Tidak ada")
+    else:
+        result = "[Berhasil mendapatkan daftar]"
+        for count, task in enumerate(listOfTaskQuery, start=1):
+            result = result + "<br>"+str(count) +".  " +str(task[3])+" - "+ task[2] +" - "+ task[1]+" - "+ task[4]
+    return result
+
+def task_deadline_Shortchatbuilder(listOfTaskQuery):
+    # Mereturn string dengan format /n diganti <br> untuk keperluan html
+    # Format isi string disesuaikan dengan spek
+    if(len(listOfTaskQuery)==0):
+        return("Tidak ada")
+    else:
+        result = "[Berhasil mendapatkan daftar]"
+        for count, task in enumerate(listOfTaskQuery, start=1):
+            result = result + "<br>"+str(count) +".  " +str(task[1])+" - "+ task[0]
     return result
     
 def main():

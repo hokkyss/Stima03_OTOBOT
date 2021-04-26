@@ -6,7 +6,6 @@ from Sastrawi.StopWordRemover.StopWordRemoverFactory import StopWordRemoverFacto
 # factory = StopWordRemoverFactory()
 newStopFactory = StopWordRemoverFactory().get_stop_words()
 newStopFactory.remove("sampai")
-newStopFactory.remove("hingga")
 newStopFactory.append("tanggal")
 stopword = StopWordRemover(ArrayDictionary(newStopFactory))
 
@@ -221,56 +220,12 @@ class Task:
         # Asumsi topik selalu berada diantara nama matkul dan tanggal 
         noStopword = stopword.remove(string)
         topik = noStopword[kmpMatch(noStopword,mata_kuliah,True)+len(mata_kuliah)+1:kmpMatch(noStopword,stringTanggal,True)]
+        if (len(topik) <= 1):
+            return None
         return Task(jenis, mata_kuliah, tanggal, topik)
 
     ''' tambahkan '''
 
 # KATA_PENTING = ['Deadline', 'Selesai', 'Diundur', 'Update', 'Task', 'Minggu', 'Hari']
 
-def levenshtein_distance(s, t, caseSensitive = False):
-    """ 
-    Menghitung jarak levenshtein (banyaknya edit,insert, atau delete) dari string s dan string t supaya kedua string sama
-    Argument:
-    s : String (string pertama yang akan dicompare) 
-    t : String (string kedua yang akan dicompare) 
-    caseSensitive : Boolean (apakah perhitungan mempertimbangkan huruf besar dan kecil)
-    """
-    if (not (caseSensitive)):
-        s = s.lower()
-        t = t.lower()
-    rows = len(s)+1
-    cols = len(t)+1
-    levenshtein_matrix = [[0 for j in range(cols)] for i in range(rows)]
-
-    # Inisialisasi distance untuk string kosong pada matrix levenshtein distance (base case)
-    # Apabila s merupakan string kosong maka s dapat dibentuk menjadi string t dengan menginsert element t ke s satu persatu 
-    for i in range(1, cols):
-        levenshtein_matrix[0][i] = i
-    # Apabila t merupakan string kosong maka s dapat dibentuk menjadi t dengan menghapus elemen dari s satu persatu
-    for i in range(1, rows):
-        levenshtein_matrix[i][0] = i
-    
-    # Pengisan matrix levenshtein distance untuk string tidak kosong (iterative recursive case)
-    for row in range(1, rows):
-        for col in range(1, cols):
-            if s[row-1] == t[col-1]:
-                cost = 0
-            else:
-                cost = 1
-            a = levenshtein_matrix[row-1][col] + 1      # Kasus deletion
-            b = levenshtein_matrix[row][col-1] + 1      # Kasus insertion
-            c = levenshtein_matrix[row-1][col-1] + cost   # Kasus substitution (perhatikan bahwa apabila huruf sama maka biaya substitutionnya 0)
-            levenshtein_matrix[row][col] = min (a,b,c)
-    
-    return levenshtein_matrix[rows-1][cols-1]
-
-def levenshtein_ratio(s, t, caseSensitive = False):
-    """ 
-    Menghitung jarak levenshtein dalam bentuk rasio (banyaknya edit,insert, atau delete) dari string s dan string t supaya kedua string sama
-    Argument:
-    s : String (string pertama yang akan dicompare) 
-    t : String (string kedua yang akan dicompare) 
-    caseSensitive : Boolean (apakah perhitungan mempertimbangkan huruf besar dan kecil)
-    """
-    return float(1-(levenshtein_distance(s,t,caseSensitive)/max(len(t),len(s))))
 

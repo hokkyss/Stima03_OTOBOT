@@ -57,12 +57,13 @@
             console.log('Pesan berhasil diterima');
             $('#chat-content').append('<div class="media media-chat media-chat-reverse"><div class="media-body"><p>'+Msg[0]+'</p></div></div>');
             $('#chat-content').append('<div class="media media-chat"><img class="avatar" src="'+'{{ url_for("static",filename="images/Martz90-Circle-Contacts.ico") }}'+'" alt="..."><div class="media-body"><p>'+Msg[1]+'</p></div></div>');
+            $('#chat-content').scrollTop($('#chat-content').prop('scrollHeight'));
         });
         $('#sendbutton').on('click', function () {
             var myMsg = $('#myMessage').val();
             console.log(myMsg);
             if (myMsg != ""){
-                if (myMsg=="reset"){
+                if (myMsg=="--resetChat"){
                     $('.media-chat').remove();
                 } 
                 socket.send(myMsg);

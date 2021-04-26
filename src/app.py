@@ -1,6 +1,7 @@
 from flask import Flask, render_template
 from flask_socketio import SocketIO, send
 from db_util import *
+from main import *
 
 # Deklarasi variabel
 app = Flask(__name__)
@@ -11,14 +12,16 @@ socketio = SocketIO(app, cors_allowed_origins='*')
 # Lalu proses pesan apa yang harus dikeluarkan bot dan kirimkan kembali kedua pesan ini untuk diproses di frontend
 @socketio.on('message')
 def handleMessage(myMsg):
-	if (myMsg =="reset"):
-		dell_all_chat()
-	else:
+	if (myMsg != "--resetChat"):
 		add_new_chat(myMsg)
-		botMsg = "Perintah tidak dikenal"
+	botMsg = process_user_chat(myMsg)
+	if (botMsg != ""):
 		add_new_chat(botMsg,Bot=1)
 		message = [myMsg,botMsg]
 		send(message, broadcast=True)
+		
+		
+		
 	
 # Route untuk aplikasi yang dibuat
 @app.route("/")
