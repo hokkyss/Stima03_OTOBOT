@@ -1,6 +1,6 @@
 """Algoritma KMP"""
 
-def kmpMatch_getAllMatchPattern(text,listOfPattern,caseSensitive=False):
+def kmpMatch_getAllMatchPattern(text,listOfPattern,noCaseSensitive=True):
     """Mencari pattern apa saja yang muncul di text dari sekumpulan pattern
 
     Args:
@@ -13,7 +13,7 @@ def kmpMatch_getAllMatchPattern(text,listOfPattern,caseSensitive=False):
     """
     result = []
     for pattern in listOfPattern:
-        if(kmpMatch(text,pattern,caseSensitive)!= -1):
+        if(kmpMatch(text,pattern,noCaseSensitive)!= -1):
             result.append(pattern)
     return result
 
@@ -82,7 +82,7 @@ def computeFail(pattern):
 
 """Algoritma Boyer Moore """
 
-def bMMatch_getAllMatchPattern(text,listOfPattern,caseSensitive=False):
+def bMMatch_getAllMatchPattern(text,listOfPattern,noCaseSensitive=True):
     """Mencari pattern apa saja yang muncul di text dari sekumpulan pattern
 
     Args:
@@ -95,7 +95,7 @@ def bMMatch_getAllMatchPattern(text,listOfPattern,caseSensitive=False):
     """
     result = []
     for pattern in listOfPattern:
-        if(bmMatch(text,pattern,caseSensitive)!= -1):
+        if(bmMatch(text,pattern,noCaseSensitive)!= -1):
             result.append(pattern)
     return result
     

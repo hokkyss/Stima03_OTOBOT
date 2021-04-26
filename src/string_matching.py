@@ -7,21 +7,22 @@ from Sastrawi.StopWordRemover.StopWordRemoverFactory import StopWordRemoverFacto
 newStopFactory = StopWordRemoverFactory().get_stop_words()
 newStopFactory.remove("sampai")
 newStopFactory.append("tanggal")
+newStopFactory.append("deadline")
 stopword = StopWordRemover(ArrayDictionary(newStopFactory))
 
 # Regex untuk bulan
-JANUARI_REGEX ='Jan(?:uari)?'
-FEBRUARI_REGEX ='Feb(?:ruari)?'
-MARET_REGEX ='Mar(?:et)?'
-APRIL_REGEX ='Apr(?:il)?'
-MEI_REGEX ='Mei'
-JUNI_REGEX ='Juni?'
-JULI_REGEX ='Juli?'
-AGUSTUS_REGEX ='Agu(?:stus)?'
-SEPTEMBER_REGEX ='Sep(?:tember)?'
-OKTOBER_REGEX ='Okt(?:ober)?'
-NOVEMBER_REGEX ='Nov(?:ember)?'
-DESEMBER_REGEX ='Des(?:ember)?'
+JANUARI_REGEX ='[Jj]an(?:uari)?'
+FEBRUARI_REGEX ='[Ff]eb(?:ruari)?'
+MARET_REGEX ='[Mm]ar(?:et)?'
+APRIL_REGEX ='[Aa]pr(?:il)?'
+MEI_REGEX ='[Mm]ei'
+JUNI_REGEX ='[Jj]uni?'
+JULI_REGEX ='[Jj]uli?'
+AGUSTUS_REGEX ='[Aa]gu(?:stus)?'
+SEPTEMBER_REGEX ='[Ss]ep(?:tember)?'
+OKTOBER_REGEX ='[Oo]kt(?:ober)?'
+NOVEMBER_REGEX ='[Nn]ov(?:ember)?'
+DESEMBER_REGEX ='[Dd]es(?:ember)?'
 
 # Regex untuk keutuhan tanggal
 ANYTHING = '.*'

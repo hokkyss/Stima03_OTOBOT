@@ -35,7 +35,8 @@ def add_new_task(task):
     # Menambahkan task baru
     # Task adalah objek kelas task
     # Return pesan sukses /gagal
-    new_task = (task.jenis, task.mata_kuliah, str(task.tanggal), task.topik)
+    task.matakuliah = str(task.mata_kuliah).upper()
+    new_task = (task.jenis, task.mata_kuliah , str(task.tanggal), task.topik)
     db = get_db()
     cursor = db.cursor()
 
@@ -67,12 +68,29 @@ def get_all_task_by_mata_kuliah(mata_kuliah,include_completed = True):
     # Mendapatkan semua task
     db = get_db()
     cursor = db.cursor()
+    mata_kuliah = str(mata_kuliah).upper()
     sql = "SELECT * FROM task WHERE Mata_Kuliah = '" + mata_kuliah + "'"
     try:
         if (include_completed):
             sql = sql + " AND Selesai = 1"
         cursor.execute(sql)
         print("Berhasil mendapatkan semua task dengan mata kuliah " + str(mata_kuliah))
+        return cursor.fetchall()
+    except sqlite3.Error as er:
+        print(er)
+        return []
+    
+    
+def get_all_task_by_jenis_tugas(jenis_tugas,include_completed = True):
+    # Mendapatkan semua task
+    db = get_db()
+    cursor = db.cursor()
+    sql = "SELECT * FROM task WHERE Jenis = '" + jenis_tugas + "'"
+    try:
+        if (include_completed):
+            sql = sql + " AND Selesai = 1"
+        cursor.execute(sql)
+        print("Berhasil mendapatkan semua task dengan mata kuliah " + jenis_tugas)
         return cursor.fetchall()
     except sqlite3.Error as er:
         print(er)
@@ -120,6 +138,7 @@ def get_deadline(mata_kuliah, jenis_tugas = None):
     # mendapatkan semua deadline dari suatu tugas matkul tertentu
     db = get_db()
     cursor = db.cursor()
+    mata_kuliah = str(mata_kuliah).upper()
     try:
         sql = "SELECT topik, tanggal FROM task WHERE Mata_Kuliah = '" + mata_kuliah + "'"
         if (jenis_tugas != None):
@@ -242,7 +261,8 @@ def task_deadline_completeChatbuilder(listOfTaskQuery):
     else:
         result = "[Berhasil semua Task]"
         for count, task in enumerate(listOfTaskQuery, start=1):
-            result = result + "<br>"+str(count) +".  " +str(task[3])+" - "+ task[2] +" - "+ task[1]+" - "+ task[4] + "-" + ("selesai" if task[5] == 1 else "belum selesai")
+            dt = datetime.datetime.strptime(str(task[3]), '%Y-%m-%d').strftime('%d/%m/%Y')
+            result = result + "<br>"+str(count) +".  (ID : "+ str(task[0]) +") " +dt+" - "+ task[2] +" - "+ task[1]+" - "+ task[4] + " - " + ("selesai" if task[5] == 1 else "belum selesai")
     return result
 
 def task_deadline_chatbuilder(listOfTaskQuery):
@@ -253,7 +273,8 @@ def task_deadline_chatbuilder(listOfTaskQuery):
     else:
         result = "[Berhasil mendapatkan daftar]"
         for count, task in enumerate(listOfTaskQuery, start=1):
-            result = result + "<br>"+str(count) +".  " +str(task[3])+" - "+ task[2] +" - "+ task[1]+" - "+ task[4]
+            dt = datetime.datetime.strptime(str(task[3]), '%Y-%m-%d').strftime('%d/%m/%Y')
+            result = result + "<br>"+str(count) +".  (ID : "+ str(task[0]) +") "+ dt+" - "+ task[2] +" - "+ task[1]+" - "+ task[4]
     return result
 
 def task_deadline_Shortchatbuilder(listOfTaskQuery):
@@ -264,7 +285,7 @@ def task_deadline_Shortchatbuilder(listOfTaskQuery):
     else:
         result = "[Berhasil mendapatkan daftar]"
         for count, task in enumerate(listOfTaskQuery, start=1):
-            result = result + "<br>"+str(count) +".  " +str(task[1])+" - "+ task[0]
+            result = result + "<br>"+str(count) +". " +str(task[1])+" - "+ task[0]
     return result
     
 def main():

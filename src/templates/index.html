@@ -19,13 +19,17 @@
             {% if message[1] == 0 %}
             <div class="media media-chat media-chat-reverse">
                 <div class="media-body">
+                    {% autoescape false %}
                     <p>{{ message[0] }}</p>
+                    {% endautoescape %}
                 </div>
             </div>
             {% else %}
             <div class="media media-chat"> <img class="avatar" src="{{ url_for('static',filename='images/Martz90-Circle-Contacts.ico') }}" alt="...">
                 <div class="media-body">
+                    {% autoescape false %}
                     <p>{{ message[0] }}</p>
+                    {% endautoescape %}
                 </div>
             </div>
             {% endif %}
