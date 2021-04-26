@@ -118,8 +118,21 @@ def process_string(string):
         flag_tugas = False
     
 
-    
-while(True):
+def main():
+    global flag_deadline
+    global flag_antara
+    global flag_hari_ini
+    global flag_hari
+    global flag_minggu
+    global flag_mata_kuliah
+    global flag_ubah
+    global flag_selesai
+    global flag_tambah_task
+    global flag_tugas
+    global flag_task_id
+    global flag_date
+
+    # Inisialisasi flag false
     flag_deadline = False
     flag_antara = False
     flag_hari_ini = False
@@ -133,13 +146,15 @@ while(True):
     flag_task_id = False
     flag_date = False
 
+    print("> ", end="")
     user_chat = input()
     add_new_chat(user_chat)
     process_string(user_chat)
+    
     listOfFlag = [flag_deadline,flag_antara,flag_hari_ini,flag_hari,flag_minggu,flag_mata_kuliah,flag_ubah,flag_selesai,flag_tambah_task,flag_tugas, flag_task_id, flag_date]
     numOfActiveFlag = listOfFlag.count(True)
 
-    print(flag_deadline,flag_mata_kuliah,flag_tugas)
+    # print(flag_deadline,flag_mata_kuliah,flag_tugas)
     if(user_chat=="showTask"):
         print(get_all_task())
     elif(user_chat=="resetTask"):
@@ -245,5 +260,9 @@ while(True):
         print("Command Tidak dikenali")
         
         
+        
+# MAIN PROGRAM
+while(True):
+    main()
     
 

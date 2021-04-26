@@ -6,6 +6,8 @@ from Sastrawi.StopWordRemover.StopWordRemoverFactory import StopWordRemoverFacto
 # factory = StopWordRemoverFactory()
 newStopFactory = StopWordRemoverFactory().get_stop_words()
 newStopFactory.remove("sampai")
+newStopFactory.remove("hingga")
+newStopFactory.append("tanggal")
 stopword = StopWordRemover(ArrayDictionary(newStopFactory))
 
 # Regex untuk bulan
@@ -185,19 +187,20 @@ class Task:
         tanggal = None
         topik = None
 
-        # Pastikan hanya ada satu jenis task yang muncul di kalimat
+        # Pastikan hanya ada jenis task yang muncul di kalimat
+        # Asumsikan jenis tugas diambil hanya yang pertama muncul
         allPattern =  kmpMatch_getAllMatchPattern(string,KATA_PENTING,True)
-        if (len(allPattern)==1):
+        if (len(allPattern) != 0):
             jenis = allPattern[0]
 
         # Pastikan hanya ada satu mata kuliah di kalimat 
         allMatkul = regex.findall(COURSE_REGEX, string)
-        if (len(allMatkul)==1):
+        if (len(allMatkul) == 1):
             mata_kuliah = allMatkul[0]
 
         # Pastikan hanya ada satu tanggal di kalimat
         allTanggal = Date.find_all_dates_in(string)
-        if (len(allTanggal) ==1):
+        if (len(allTanggal) == 1):
             tanggal = allTanggal[0]
             stringTanggal = ''.join(regex.findall(DATE_REGEX, string)[0])
 

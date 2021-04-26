@@ -188,7 +188,7 @@ def add_new_chat(chat, Bot = 0):
     cursor = db.cursor()
     try:
         cursor.execute("INSERT INTO chat(Chat, Bot) VALUES(?, ?)", new_chat)
-        print("Berhasil menambahkan chat " + chat)
+        # print("Berhasil menambahkan chat " + chat)
         db.commit()
     except sqlite3.Error as er:
         print(er)
@@ -291,5 +291,5 @@ def main():
     print(res)
     '''
 # Main Program
-main()
+# main()
 
