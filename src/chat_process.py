@@ -1,5 +1,5 @@
 import re as regex
-from db_util import *
+from util import *
 from string_matching import *
 from string_matching_algorithm import *
 

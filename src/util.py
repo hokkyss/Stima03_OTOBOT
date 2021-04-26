@@ -289,12 +289,6 @@ def task_deadline_Shortchatbuilder(listOfTaskQuery):
     return result
     
 def main():
-    create_tabel_task()
-    task1 = Task("Tubes", "IF2110", "2021-04-15", "STRING MATCHING")
-    add_new_task(task1)
-    all_task = get_all_task()
-    print(all_task)
-    '''
     # Isi main program
     # Init + hapus tabel
     db = get_db()
@@ -347,7 +341,7 @@ def main():
     # Finish task
     res = finish_task(1)
     print(res)
-    '''
+    
 # Main Program
 # main()
 

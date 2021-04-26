@@ -1,7 +1,7 @@
 from flask import Flask, render_template
 from flask_socketio import SocketIO, send
-from db_util import *
-from main import *
+from util import *
+from chat_process import *
 
 # Deklarasi variabel
 app = Flask(__name__)
