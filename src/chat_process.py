@@ -353,7 +353,7 @@ def typo_solver(user_chat, kamus, checker = False):
     for i in range(len(user_words)):
         for kata in kamus:
             ratio = levenshtein_ratio(user_words[i],kata)
-            if (ratio > 0.75 and ratio < 1):
+            if (ratio > 0.7 and ratio < 1):
                 user_words[i] = kata
                 found_typo = True
     final_words = " ".join(user_words)
