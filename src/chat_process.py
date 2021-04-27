@@ -367,11 +367,11 @@ def typo_solver(user_chat, kamus, checker = False):
             return ("Perintah tidak dikenal")
         
 # MAIN PROGRAM
-while(True):
-    print("> ", end="")
-    user_chat = input()
-    res = process_user_chat(user_chat)
-    print(res)
+# while(True):
+#     print("> ", end="")
+#     user_chat = input()
+#     res = process_user_chat(user_chat)
+#     print(res)
 
     
 
