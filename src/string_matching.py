@@ -28,11 +28,10 @@ DESEMBER_REGEX ='[Dd]es(?:ember)?'
 ANYTHING = '.*'
 DAY_REGEX = '(0[1-9]|[1-2][0-9]|3[0-1])'
 MONTH_REGEX = '(0[1-9]|1[0-2]|'+JANUARI_REGEX+'|'+FEBRUARI_REGEX+'|'+MARET_REGEX+'|'+APRIL_REGEX+'|'+MEI_REGEX+'|'+JUNI_REGEX+'|'+JULI_REGEX+'|'+AGUSTUS_REGEX+'|'+SEPTEMBER_REGEX+'|'+OKTOBER_REGEX+'|'+NOVEMBER_REGEX+'|'+DESEMBER_REGEX+')'
-YEAR_REGEX = '([0-9]{4})'
+YEAR_REGEX = '([0-9]{4}|[0-9]{2}\s+)'
 DATE_DELIM = '([-/ ])'
 DATE_REGEX = DAY_REGEX + DATE_DELIM + MONTH_REGEX + DATE_DELIM + YEAR_REGEX
 # print(regex.findall(DATE_REGEX,"11/Januari/2020"))
-
 
 class Date:
     def __init__(self, D, M, Y):
@@ -56,20 +55,36 @@ class Date:
         elif (len(regex.findall(SEPTEMBER_REGEX,string)) != 0): return '09'
         elif (len(regex.findall(OKTOBER_REGEX,string)) != 0): return '10'
         elif (len(regex.findall(NOVEMBER_REGEX,string)) != 0): return '11'
-        else : return '12'
+        elif (len(regex.findall(DESEMBER_REGEX,string)) != 0): return '12'
+        else: return ''
 
     @staticmethod
     def string_to_date(string):
         '''
-        prekondisi : string sudah memenuhi regex DATE_REGEX alias DD.MM.YYYY atau DD.Nama_Bulan.YYYY dengan . adalah pembatas tanggal
+        prekondisi : string sudah memenuhi regex DATE_REGEX alias salah satu dari
+            - DD.MM.YYYY
+            - DD.Nama_Bulan.YYYY
+            - DD.MM.YY
+            - DD.Nama_Bulan.YY
+            dengan . adalah pembatas tanggal
         mereturn sebuah tuple (DD, MM, YYYY) yang menyatakan tanggal
         '''
-        DD = int(string[0:2])
-        if(len(string) == 10):
-            MM = int(string[3:5])
-        else :
-            MM = int(Date.resolveMonth(string[3:len(string)-5]))
-        YYYY = int(string[len(string)-4:len(string)])
+        DD = int(string[0 : 2])
+        if(len(string) == 10 or len(string) == 8):
+            MM = int(string[3 : 5])
+            if(len(string == 10)):
+                YYYY = int(string[len(string) - 4 : len(string)])
+            else:
+                YYYY = 2000 + int(string[len(string) - 2:])
+        else : # pakai Nama_Bulan
+            MM = Date.resolveMonth(string[3 : len(string) - 5])
+            if(MM == ''):
+                MM = int(Date.resolveMonth(string[3 : len(string) - 3]))
+                YYYY = int(string[len(string) - 2 : ])
+            else:
+                MM = int(MM)
+                YYYY = int(string[len(string) - 4 : len(string)])
+
         return Date(DD, MM, YYYY)
 
 
@@ -87,6 +102,7 @@ class Date:
         except :
             MM = int(Date.resolveMonth(M))
         YYYY = int(Y)
+        if(0 <= YYYY < 100): YYYY += 2000
         return Date(DD, MM, YYYY)
     
     @staticmethod
@@ -156,13 +172,6 @@ class Date:
         self.MM = M
         self.YYYY = Y
 
-    def to_string(self):
-        '''
-            returns a string of format DDDD-MM-YY (for SQL)
-        '''
-        return self.YYYY + "-" + self.MM + "-" + self.DD
-
-
     '''
         setAttr(instance_name, 'attribute_name', value) sebagai sebuah setter
     '''
@@ -170,7 +179,7 @@ class Date:
 COURSE_REGEX = '[A-Za-z]{2}[0-9]{4}'
 
 KATA_PENTING = ['Kuis', 'Ujian', 'Tucil', 'Tubes', 'Praktikum','Tugas']
-TUGAS = ['Tucil', 'Tubes','Tugas']
+TUGAS = ['Tucil', 'Tubes', 'Tugas']
 # KATA_PENTING[i].lower() --> ngambil semuanya huruf kecil
 # KATA_PENTING[i].capitalize() --> Kapital huruf pertama, sisanya huruf kecil
 class Task:
