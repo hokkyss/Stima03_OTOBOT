@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block head %} 
+<title>Otobot Agenda</title>
+{% endblock%}
+
+{% block after_style %}
+<link rel="stylesheet" href="{{ url_for('static',filename='styles/chat.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="card card-bordered">
+    <div class="card-header">
+        <h4 class="card-title"><i class="fa fa-circle fa-xs mr-3" style="color:#63e4b6"></i><strong>Otobot Agenda</strong></h4>
+    </div>
+    <div class="ps-container ps-theme-default ps-active-y" id="chat-content" style="overflow-y: scroll !important; height:400px !important;">
+        {% for message in messages %}
+            {% if message[1] == 0 %}
+            <div class="media media-chat media-chat-reverse">
+                <div class="media-body">
+                    {% autoescape false %}
+                    <p>{{ message[0] }}</p>
+                    {% endautoescape %}
+                </div>
+            </div>
+            {% else %}
+            <div class="media media-chat"> <img class="avatar" src="{{ url_for('static',filename='images/icoBot.png') }}" alt="...">
+                <div class="media-body">
+                    {% autoescape false %}
+                    <p>{{ message[0] }}</p>
+                    {% endautoescape %}
+                </div>
+            </div>
+            {% endif %}
+        {% endfor %}
+        <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 0px;">
+            <div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+        </div>
+        <div class="ps-scrollbar-y-rail" style="top: 0px; height: 0px; right: 2px;">
+            <div class="ps-scrollbar-y" tabindex="0" style="top: 0px; height: 2px;"></div>
+        </div>
+    </div>
+    <div class="publisher bt-1 border-light"> <img class="avatar avatar-xs" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="...">
+        <textarea class="publisher-input" type="text" placeholder="Write something" id="myMessage" rows="1"></textarea>>
+        <a class="publisher-btn text-info" href="#" data-abc="true" id="sendbutton">
+            <i class="fa fa-paper-plane"></i>
+        </a>
+    </div>
+</div>
+{% endblock %}
+{% block after_script %}
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var socket = io();
+        socket.on('connect', function () {
+            console.log('Berhasil tersambung');
+        });
+        socket.on('message', function (Msg) {
+            console.log('Pesan berhasil diterima');
+            if (Msg[0] == "--resetChat"){
+                $('.media-chat').remove();
+            } else {
+                $('#chat-content').append('<div class="media media-chat media-chat-reverse"><div class="media-body"><p>'+Msg[0]+'</p></div></div>');
+                $('#chat-content').append('<div class="media media-chat"><img class="avatar" src="'+'{{ url_for("static",filename="images/icoBot.png") }}'+'" alt="..."><div class="media-body"><p>'+Msg[1]+'</p></div></div>');
+                $('#chat-content').scrollTop($('#chat-content').prop('scrollHeight'));
+                
+            }      
+        });
+        $('#sendbutton').on('click', function () {
+            var myMsg = $('#myMessage').val();
+            window.scrollTo(100,1325);
+            console.log(myMsg);
+            if (myMsg != ""){
+                socket.send(myMsg);
+                $('#myMessage').val('');
+            } else {
+                console.log("Pesan tidak boleh kosong");
+            }
+        });
+    });
+    $("textarea").each(function () {
+            this.setAttribute("style", "height:" + (this.scrollHeight) + "px;overflow-y:hidden;" + "resize:none;"); }).on("input", function () {
+            this.style.height = "auto";
+            this.style.height = (this.scrollHeight) + "px";
+    });
+</script>
+{% endblock %}
