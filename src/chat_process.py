@@ -330,14 +330,28 @@ def process_user_chat(user_chat):
             # return ("Perintah tidak dikenal")
             return typo_solver(user_chat,kamus_typo)
 
-    # Menampilkan semua deadline jenis tugas dari mata kuliah tertentu
+    # Menampilkan semua deadline jenis tugas dari mata kuliah tertentu atau bisa juga deadline mata kuliah tanpa jenis tugas
     # Yang nyala flag_deadline, flag_tugas, flag_kata_penting dan flag_mata_kuliah
-    elif(flag_deadline and flag_tugas and flag_mata_kuliah and numOfActiveFlag == 4):
+    elif(flag_deadline and flag_mata_kuliah):
         mata_kuliah = regex.findall(COURSE_REGEX, user_chat)[0]
-        jenis_tugas = kmpMatch_getAllMatchPattern(user_chat, TUGAS, True)[0].capitalize()
-        deadline = get_deadline(mata_kuliah, jenis_tugas)
-        print(deadline)
-        return task_deadline_Shortchatbuilder(deadline)
+        jenis_tugas = None
+        if (flag_kata_penting):
+            if (not flag_tugas):
+                return "Task yang bukan tugas tidak mempunyai deadline"
+            elif (flag_tugas and numOfActiveFlag == 4):
+                jenis_tugas = kmpMatch_getAllMatchPattern(user_chat, TUGAS, True)[0].capitalize()
+                deadline = get_deadline(mata_kuliah, jenis_tugas)
+                print(deadline)
+                return task_deadline_Shortchatbuilder(deadline)
+            else :
+                return typo_solver(user_chat, kamus_typo)
+        elif (not(flag_kata_penting) and numOfActiveFlag==2):
+            deadline = get_deadline(mata_kuliah, jenis_tugas)
+            print(deadline)
+            return task_deadline_Shortchatbuilder(deadline)
+        else :
+            return typo_solver(user_chat)
+
     
     # Menampilkan semua deadline dari suatu jenis tugas
     # Yang nyala flag_deadline, flag_tugas, flag_kata_penting
@@ -352,6 +366,10 @@ def process_user_chat(user_chat):
         tasks = get_all_task(include_completed=False)
         print(tasks)
         return (task_deadline_chatbuilder(tasks))
+    
+    # Menangkap kesalahan command berupa deadline dari task yang bukan tugas
+    elif(flag_kata_penting and flag_deadline and  numOfActiveFlag == 2):
+        return "Task yang bukan tugas tidak memiliki deadline"
     
     # Menampilkan task dari suatu kata penting
     elif(flag_kata_penting and numOfActiveFlag == 1):
@@ -401,8 +419,10 @@ def typo_solver(user_chat, kamus, checker=False):
     found_typo = False
     for i in range(len(user_words)):
         for kata in kamus:
+            if ((kata == "juni" and user_words[i].lower() == "juli") or (kata == "juli" and user_words[i].lower() == "juni")):
+                continue
             ratio = levenshtein_ratio(user_words[i], kata)
-            if (ratio > 0.7 and ratio < 1):
+            if (ratio > 0.725 and ratio < 1):
                 user_words[i] = kata
                 found_typo = True
     final_words = " ".join(user_words)

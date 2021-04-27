@@ -139,7 +139,7 @@ def get_deadline(mata_kuliah, jenis_tugas = None):
     cursor = db.cursor()
     mata_kuliah = str(mata_kuliah).upper()
     try:
-        sql = "SELECT topik, tanggal FROM task WHERE Mata_Kuliah = '" + mata_kuliah + "'"
+        sql = "SELECT topik, tanggal, jenis FROM task WHERE Selesai = 0 and Mata_Kuliah = '" + mata_kuliah + "'"
         if (jenis_tugas != None):
             sql = sql + " AND (Jenis = '" + jenis_tugas + "')"
         cursor.execute(sql)
@@ -161,7 +161,8 @@ def update_deadline(ID,date):
             cursor.execute(sql)
             print("Sukses merubah deadline task " + str(ID) + " menjadi " + date)
             db.commit()
-            return ("Sukses merubah deadline task " + str(ID) + " menjadi " + date)
+            dt = datetime.datetime.strptime(str(date), '%Y-%m-%d').strftime('%d/%m/%Y')
+            return ("Sukses merubah deadline task " + str(ID) + " menjadi " + dt)
         else:
             print("Task tidak dikenali")
             return ("Tidak ada task dengan id tersebut")
@@ -284,7 +285,7 @@ def task_deadline_Shortchatbuilder(listOfTaskQuery):
     else:
         result = "[Berhasil mendapatkan daftar]"
         for count, task in enumerate(listOfTaskQuery, start=1):
-            result = result + "<br>"+str(count) +". " +str(task[1])+" - "+ task[0]
+            result = result + "<br>"+str(count) +". " +str(task[1])+" - "+ task[0] + " - " + task[2]
     return result
 
 def help_chatbuilder():
