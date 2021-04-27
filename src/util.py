@@ -1,6 +1,6 @@
 import sqlite3
 import datetime
-from string_matching import *
+from classes import *
 
 def get_db():
     # Melakukan koneksi ke database

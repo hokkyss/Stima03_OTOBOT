@@ -17,7 +17,7 @@ def handleMessage(myMsg):
 		add_new_chat(formatMsg)
 	botMsg = process_user_chat(myMsg.replace('\n', ''))
 	if ("--resetChat" in myMsg):
-		send(["--resetChat","--resetChat"], broadcast=True)
+		send(["--resetChat", "--resetChat"], broadcast=True)
 	if (botMsg != ""):
 		add_new_chat(botMsg,Bot=1)
 		message = [formatMsg,botMsg]

@@ -8,6 +8,7 @@ newStopFactory = StopWordRemoverFactory().get_stop_words()
 newStopFactory.remove("sampai")
 newStopFactory.append("tanggal")
 newStopFactory.append("deadline")
+newStopFactory.append("mengenai")
 stopword = StopWordRemover(ArrayDictionary(newStopFactory))
 
 # Regex untuk bulan
@@ -28,7 +29,7 @@ DESEMBER_REGEX ='[Dd]es(?:ember)?'
 ANYTHING = '.*'
 DAY_REGEX = '(0[1-9]|[1-2][0-9]|3[0-1])'
 MONTH_REGEX = '(0[1-9]|1[0-2]|'+JANUARI_REGEX+'|'+FEBRUARI_REGEX+'|'+MARET_REGEX+'|'+APRIL_REGEX+'|'+MEI_REGEX+'|'+JUNI_REGEX+'|'+JULI_REGEX+'|'+AGUSTUS_REGEX+'|'+SEPTEMBER_REGEX+'|'+OKTOBER_REGEX+'|'+NOVEMBER_REGEX+'|'+DESEMBER_REGEX+')'
-YEAR_REGEX = '([0-9]{4}|[0-9]{2}\s+)'
+YEAR_REGEX = '([0-9]{4}|[0-9]{2}\s*)'
 DATE_DELIM = '([-/ ])'
 DATE_REGEX = DAY_REGEX + DATE_DELIM + MONTH_REGEX + DATE_DELIM + YEAR_REGEX
 # print(regex.findall(DATE_REGEX,"11/Januari/2020"))
@@ -84,7 +85,10 @@ class Date:
             else:
                 MM = int(MM)
                 YYYY = int(string[len(string) - 4 : len(string)])
-
+        
+        print(DD)
+        print(MM)
+        print(YYYY)
         return Date(DD, MM, YYYY)
 
 
@@ -133,7 +137,7 @@ class Date:
         # bulannya sama
         if(self.DD >= date.DD): return False
         return True
-
+    
     def is_same(self, date):
         '''
             returns a True if current date is the same as "date"
