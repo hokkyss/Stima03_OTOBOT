@@ -13,10 +13,10 @@ socketio = SocketIO(app, cors_allowed_origins='*')
 @socketio.on('message')
 def handleMessage(myMsg):
 	formatMsg = myMsg.replace('\n', '<br> ')
-	if (not("--resetChat" in myMsg)):
+	if (not("--resetChat".lower() in myMsg.lower())):
 		add_new_chat(formatMsg)
 	botMsg = process_user_chat(myMsg.replace('\n', ''))
-	if ("--resetChat" in myMsg):
+	if ("--resetChat".lower() in myMsg.lower()):
 		send(["--resetChat", "--resetChat"], broadcast=True)
 	if (botMsg != ""):
 		add_new_chat(botMsg,Bot=1)

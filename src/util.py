@@ -292,54 +292,56 @@ def help_chatbuilder():
     return (
     '''
     
-    Utility Command<br>
-    --help : Menampilkan list of command dan penjelasan<br>
-    --createTask : Membuat tabel task (untuk emergency)<br>
-    --createChat : Membuat tabel chat (untuk emergency)<br>
-    --resetChat : Merefresh chat<br>
-    --resetTask : Merefresh seluruh task<br>
-    --showAllTask : Menampilkan semua task<br>
+    <b>Utility Command</b>(not case sensitive)<br>
+    <b>--help</b> : Menampilkan list of command dan penjelasan<br>
+    <b>--createTask</b> : Membuat tabel task (untuk emergency)<br>
+    <b>--createChat</b> : Membuat tabel chat (untuk emergency)<br>
+    <b>--resetChat</b> : Merefresh chat<br>
+    <b>--resetTask</b> : Merefresh seluruh task<br>
+    <b>--showAllTask</b> : Menampilkan semua task<br>
     <br>
-    KATA_PENTING = kuis, ujian, tucil, tubes, praktikum, dan tugas<br>
-    KODE_MATKUL = Dua buah huruf (a-z|A-Z) diikuti 4 angka (0-9) contoh IF2100<br>
-    TANGGAL = 19-02-2021 atau 19 Februari 2021, bisa dipisahkan dengan ',','/' atau ' '<br>
-    note: KATA_PENTING(1) berarti keyword KATA_PENTING sebanyak satu<br>
+    <b>KATA_PENTING</b> = kuis, ujian, tucil, tubes, praktikum, dan tugas<br>
+    <b>KODE_MATKUL</b> = Dua buah huruf (a-z|A-Z) diikuti 4 angka (0-9) contoh IF2100<br>
+    <b>TANGGAL</b> = 19-02-2021 atau 19 Februari 2021, bisa dipisahkan dengan ',' atau '/' atau ' ', bulan bisa menggunakan nama dan tahun bisa dua angka saja <br>
+    note: <br>
+    KATA_PENTING(N) berarti keyword KATA_PENTING sebanyak <b>N buah</b><br>
+    KATA_PENTING(opt) berarti keyword KATA_PENTING <b>opsional</b><br>
     <br>
     List of Command :<br>
     A) Menambah Task<br> 
-    f: KATA_PENTING(1) + KODE_MATKUL(1) + TOPIK + TANGGAL<br>
+    <b>f: KATA_PENTING(1) + KODE_MATKUL(1) + TOPIK + TANGGAL</b><br>
     <br>
     B) Menampilkan Daftar Deadline<br>
     1) Periode<br>
-       f: "deadline" + TANGGAL(2)<br> 
+       <b>f: "deadline" + TANGGAL(2)</b><br> 
     2) N hari ke depan<br>
-       f: "deadline" + N "hari" (N muncul tepat sebelum "hari")<br>
+       <b>f: "deadline" + N "hari" (N muncul tepat sebelum "hari")</b><br>
     3) N minggu ke depan<br>
-       f: "deadline" + N "minggu" (N muncul tepat sebelum "minggu")<br>
+       <b>f: "deadline" + N "minggu" (N muncul tepat sebelum "minggu")</b><br>
     4) Hari ini<br>
-       f: "deadline" + "hari_ini"<br>
+       <b>f: "deadline" + "hari_ini"</b><br>
     5) Jenis Task (Semua deadline)<br>
-       f: "deadline" + KATA_TUGAS(1) (Hanya tucil, tubes, tugas)<br>
+       <b>f: "deadline" + KATA_TUGAS(1) (Hanya tucil, tubes, tugas)</b><br>
        KATA_TUGAS(1) (Hanya kuis, ujian, praktikum)<br> 
     6) Point no (1-4) dapat dikombinasikan dengan point no (5)<br>
-       contoh "deadline" + JENIS_TUGAS(1) + TANGGAL(2)<br>
+       contoh <b>"deadline" + JENIS_TUGAS(1) + TANGGAL(2)</b><br>
        Note : Perhatikan bahwa apabila jenis tugas yang dipilih<br>
        termasuk kuis, ujian, praktikum maka kata "deadline"<br> 
-       harus dihilangkan<br>
+       <b>harus dihilangkan</b><br>
     7) Semua deadline<br>
-       f: "deadline"<br>
+       <b>f: "deadline"</b><br>
     <br>
     C) Menampilkan Deadline Task matkul tertentu<br>
-       f: "deadline" + JENIS_TUGAS(1) + KODE_MATKUL(1)<br>
+       <b>f: "deadline" + JENIS_TUGAS(1)(opt) + KODE_MATKUL(1)</b><br>
        JENIS_TUGAS yang diperbolehkan adalah tucil, tubes, dan tugas<br>
     <br>
     D) Update tanggal task<br>
        KATA_UPDATE = undur, tunda, maju, ubah, ganti, dan update<br>
-       f: KATA_UPDATE(1) + TANGGAL(1) + ID_TASK(1)<br>
+       <b>f: KATA_UPDATE(1) + TANGGAL(1) + ID_TASK(1)</b><br>
     <br>
     E) Menyelesaikan task<br>
        KATA_SELESAI = selesai,beres,tamat, dan kelar<br>
-       f: KATA_SELESAI(1) + ID_TASK(1)<br>
+       <b>f: KATA_SELESAI(1) + ID_TASK(1)</b><br>
     '''    
     )
 def main():

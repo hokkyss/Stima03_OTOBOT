@@ -207,22 +207,22 @@ def process_user_chat(user_chat):
         return "Perintah tidak dikenal, gunakan --help untuk <br> melihat command yang bisa dilakukan"
 
     # General command for application
-    if(user_chat == "--showAllTask"):
+    if(user_chat.lower() == "--showAllTask".lower()):
         print(get_all_task())
         return task_deadline_completeChatbuilder(get_all_task())
-    elif(user_chat == "--resetTask"):
+    elif(user_chat.lower() == "--resetTask".lower()):
         dell_all_task()
         return "Berhasil mereset semua task"
-    elif(user_chat == "--resetChat"):
+    elif(user_chat.lower() == "--resetChat".lower()):
         dell_all_chat()
         return ""
-    elif (user_chat == "--createTask"):
+    elif (user_chat.lower() == "--createTask".lower()):
         create_tabel_task()
         return "tabel task berhasil dibuat"
-    elif (user_chat == "--createChat"):
+    elif (user_chat.lower() == "--createChat".lower()):
         create_tabel_chat()
         return "tabel chat berhasil dibuat"
-    elif (user_chat == "--help"):
+    elif (user_chat.lower() == "--help".lower()):
         return help_chatbuilder()
 
     # Menambah task baru
