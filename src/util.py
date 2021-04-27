@@ -1,6 +1,5 @@
 import sqlite3
 import datetime
-from sqlite3.dbapi2 import DataError
 from string_matching import *
 
 def get_db():
@@ -71,8 +70,8 @@ def get_all_task_by_mata_kuliah(mata_kuliah,include_completed = True):
     mata_kuliah = str(mata_kuliah).upper()
     sql = "SELECT * FROM task WHERE Mata_Kuliah = '" + mata_kuliah + "'"
     try:
-        if (include_completed):
-            sql = sql + " AND Selesai = 1"
+        if (not(include_completed)):
+            sql = sql + " AND Selesai = 0"
         cursor.execute(sql)
         print("Berhasil mendapatkan semua task dengan mata kuliah " + str(mata_kuliah))
         return cursor.fetchall()
@@ -87,8 +86,8 @@ def get_all_task_by_jenis_tugas(jenis_tugas,include_completed = True):
     cursor = db.cursor()
     sql = "SELECT * FROM task WHERE Jenis = '" + jenis_tugas + "'"
     try:
-        if (include_completed):
-            sql = sql + " AND Selesai = 1"
+        if (not(include_completed)):
+            sql = sql + " AND Selesai = 0" 
         cursor.execute(sql)
         print("Berhasil mendapatkan semua task dengan mata kuliah " + jenis_tugas)
         return cursor.fetchall()
