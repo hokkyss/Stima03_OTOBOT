@@ -2,5 +2,4 @@ src/__pycache__/
 src/virt/
 .vscode/*
 *.pdf
-Otobot.db
-src/Otobot.db
+*.db
