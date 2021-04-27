@@ -1,3 +1,4 @@
 src/__pycache__/
 src/virt/
 .vscode/*
+src/Otobot.db

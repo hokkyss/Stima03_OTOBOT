@@ -25,7 +25,7 @@
                 </div>
             </div>
             {% else %}
-            <div class="media media-chat"> <img class="avatar" src="{{ url_for('static',filename='images/Martz90-Circle-Contacts.ico') }}" alt="...">
+            <div class="media media-chat"> <img class="avatar" src="{{ url_for('static',filename='images/icoBot.png') }}" alt="...">
                 <div class="media-body">
                     {% autoescape false %}
                     <p>{{ message[0] }}</p>
@@ -42,7 +42,7 @@
         </div>
     </div>
     <div class="publisher bt-1 border-light"> <img class="avatar avatar-xs" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="...">
-        <input class="publisher-input" type="text" placeholder="Write something" id="myMessage">
+        <textarea class="publisher-input" type="text" placeholder="Write something" id="myMessage" rows="1"></textarea>>
         <a class="publisher-btn text-info" href="#" data-abc="true" id="sendbutton">
             <i class="fa fa-paper-plane"></i>
         </a>
@@ -59,17 +59,22 @@
         });
         socket.on('message', function (Msg) {
             console.log('Pesan berhasil diterima');
-            $('#chat-content').append('<div class="media media-chat media-chat-reverse"><div class="media-body"><p>'+Msg[0]+'</p></div></div>');
-            $('#chat-content').append('<div class="media media-chat"><img class="avatar" src="'+'{{ url_for("static",filename="images/Martz90-Circle-Contacts.ico") }}'+'" alt="..."><div class="media-body"><p>'+Msg[1]+'</p></div></div>');
-            $('#chat-content').scrollTop($('#chat-content').prop('scrollHeight'));
+            if (Msg[0] == "--resetChat"){
+                $('.media-chat').remove();
+            } else {
+                $('#chat-content').append('<div class="media media-chat media-chat-reverse"><div class="media-body"><p>'+Msg[0]+'</p></div></div>');
+                $('#chat-content').append('<div class="media media-chat"><img class="avatar" src="'+'{{ url_for("static",filename="images/icoBot.png") }}'+'" alt="..."><div class="media-body"><p>'+Msg[1]+'</p></div></div>');
+                $('#chat-content').scrollTop($('#chat-content').prop('scrollHeight'));
+                
+            } 
+            window.scrollTo(100,1325);
+                 
         });
         $('#sendbutton').on('click', function () {
             var myMsg = $('#myMessage').val();
+            window.scrollTo(100,1325);
             console.log(myMsg);
             if (myMsg != ""){
-                if (myMsg=="--resetChat"){
-                    $('.media-chat').remove();
-                } 
                 socket.send(myMsg);
                 $('#myMessage').val('');
             } else {
@@ -77,5 +82,10 @@
             }
         });
     });
+    $("textarea").each(function () {
+            this.setAttribute("style", "height:" + (this.scrollHeight) + "px;overflow-y:hidden;" + "resize:none;"); }).on("input", function () {
+            this.style.height = "auto";
+            this.style.height = (this.scrollHeight) + "px";
+        });
 </script>
 {% endblock %}

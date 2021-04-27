@@ -12,12 +12,15 @@ socketio = SocketIO(app, cors_allowed_origins='*')
 # Lalu proses pesan apa yang harus dikeluarkan bot dan kirimkan kembali kedua pesan ini untuk diproses di frontend
 @socketio.on('message')
 def handleMessage(myMsg):
-	if (myMsg != "--resetChat"):
-		add_new_chat(myMsg)
-	botMsg = process_user_chat(myMsg)
+	formatMsg = myMsg.replace('\n', '<br> ')
+	if (not("--resetChat" in myMsg)):
+		add_new_chat(formatMsg)
+	botMsg = process_user_chat(myMsg.replace('\n', ''))
+	if ("--resetChat" in myMsg):
+		send(["--resetChat","--resetChat"], broadcast=True)
 	if (botMsg != ""):
 		add_new_chat(botMsg,Bot=1)
-		message = [myMsg,botMsg]
+		message = [formatMsg,botMsg]
 		send(message, broadcast=True)
 		
 		

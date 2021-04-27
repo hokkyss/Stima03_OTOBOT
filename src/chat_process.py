@@ -151,7 +151,7 @@ def process_user_chat(user_chat):
     # Hitung berapa banyak flag yang aktif
     listOfFlag = [flag_deadline, flag_antara, flag_hari_ini,  flag_hari, flag_minggu, flag_mata_kuliah, flag_ubah, flag_selesai, flag_tambah_task, flag_tugas, flag_kata_penting, flag_task_id, flag_date_1]
     numOfActiveFlag = listOfFlag.count(True)
-
+    
     # General command for Task
     if(user_chat=="--showAllTask"):
         print(get_all_task())
