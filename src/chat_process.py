@@ -140,19 +140,17 @@ def process_string(string):
     # update dan selesaikan tidak fleksibel
     if(flag_ubah and flag_selesai):
         flag_invalid = True
-    if((flag_ubah or flag_selesai) and flag_antara):
-        flag_invalid = True
-    if((flag_ubah or flag_selesai) and flag_hari_ini):
-        flag_invalid = True
-    if((flag_ubah or flag_selesai) and flag_hari):
-        flag_invalid = True
-    if((flag_ubah or flag_selesai) and flag_minggu):
+    if((flag_ubah or flag_selesai) and (flag_antara or flag_hari_ini or flag_hari or flag_minggu)):
         flag_invalid = True
     if((flag_ubah or flag_selesai) and flag_tambah_task):
         flag_invalid = True
+    if((flag_ubah or flag_selesai) and flag_kata_penting):
+        flag_invalid = True
+    if(flag_selesai and flag_one_date):
+        flag_invalid = True
 
     # tambah task tidak fleksibel
-    if(flag_tambah_task and (flag_antara or flag_hari_ini or flag_hari or flag_minggu)):
+    if(flag_tambah_task and (flag_antara or flag_hari_ini or flag_hari or flag_minggu or flag_ubah or flag_selesai or flag_task_id)):
         flag_invalid = True
     
 
@@ -194,7 +192,7 @@ def process_user_chat(user_chat):
     kata_keyword = ["deadline", "hari", "minggu", "task", "undur", "ganti", "update", "selesai", "kelar", "--showAllTask", "--resetTask","--resetChat"]
     kamus_typo = kata_penting + kata_keyword + nama_bulan
 
-    typo = typo_solver(user_chat,kamus_typo, True)
+    typo = typo_solver(user_chat, kamus_typo, True)
     if typo != "Tidak ada typo":
         return typo
     
@@ -206,8 +204,6 @@ def process_user_chat(user_chat):
     # Hitung berapa banyak flag yang aktif
     listOfFlag = [flag_deadline, flag_antara, flag_hari_ini,  flag_hari, flag_minggu, flag_mata_kuliah, flag_ubah, flag_selesai, flag_tambah_task, flag_tugas, flag_kata_penting, flag_task_id, flag_one_date]
     numOfActiveFlag = listOfFlag.count(True)
-    
-    print(listOfFlag)
 
     if(flag_invalid):
         return "Perintah tidak dikenal"
