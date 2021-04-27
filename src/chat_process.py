@@ -395,14 +395,14 @@ def typo_solver(user_chat, kamus, checker=False):
     found_typo = False
     for i in range(len(user_words)):
         for kata in kamus:
-            ratio = levenshtein_ratio(user_words[i],kata)
+            ratio = levenshtein_ratio(user_words[i], kata)
             if (ratio > 0.7 and ratio < 1):
                 user_words[i] = kata
                 found_typo = True
     final_words = " ".join(user_words)
     
     if found_typo:
-        return ("Mungkin maksud kamu:<br>"+final_words)
+        return ("Mungkin maksud kamu:<br>" + final_words)
     else:
         if checker:
             return ("Tidak ada typo")
