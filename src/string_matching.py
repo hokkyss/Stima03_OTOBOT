@@ -211,17 +211,7 @@ class Task:
         allTanggal = Date.find_all_dates_in(string)
         if (len(allTanggal) == 1):
             tanggal = allTanggal[0]
-            stringTanggal = ''.join(regex.findall(DATE_REGEX, string)[0])
-
-        # list_of_words = regex.split('\s', string)
-        # for words in list_of_words:
-        #     if(words.capitalize() in KATA_PENTING):
-        #         jenis = words.capitalize()
-        #     elif(regex.findall(COURSE_REGEX, words)):
-        #         mata_kuliah = regex.findall(COURSE_REGEX, words)[0]
-        #     elif(regex.findall(DATE_REGEX, words)):
-        #         tanggal2 = words
-        #         tanggal = Date.string_to_date(words)        
+            stringTanggal = ''.join(regex.findall(DATE_REGEX, string)[0])     
         
         # ada yang gak terisi
         if(jenis == None or mata_kuliah == None or tanggal == None):
@@ -229,7 +219,7 @@ class Task:
 
         # Asumsi topik selalu berada diantara nama matkul dan tanggal 
         noStopword = stopword.remove(string)
-        topik = noStopword[kmpMatch(noStopword,mata_kuliah,True)+len(mata_kuliah)+1:kmpMatch(noStopword,stringTanggal,True)]
+        topik = noStopword[kmpMatch(noStopword, mata_kuliah, True) + len(mata_kuliah) + 1 : kmpMatch(noStopword, stringTanggal, True)]
         if (len(topik) <= 1):
             return None
         return Task(jenis, mata_kuliah, tanggal, topik)

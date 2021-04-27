@@ -121,7 +121,15 @@ def process_string(string):
         # flag tugas akan aktif apabila ada kata penting berjenis tugas ada di string
         if (len(kmpMatch_getAllMatchPattern(string, TUGAS, True))) == 1:
             flag_tugas = True
+        elif (len(kmpMatch_getAllMatchPattern(string, TUGAS, True)) > 1):
+            flag_invalid = True
+    elif (len(kmpMatch_getAllMatchPattern(string, KATA_PENTING, True)) > 1):
+        flag_invalid = True
     
+    if(flag_minggu and (flag_hari or flag_hari_ini)):
+        flag_invalid = True
+    if(flag_hari and flag_hari_ini):
+        flag_invalid = True
 
 def process_user_chat(user_chat):
     global flag_deadline
@@ -129,12 +137,12 @@ def process_user_chat(user_chat):
     global flag_hari_ini
     global flag_hari
     global flag_minggu
+    global flag_tugas
+    global flag_kata_penting
     global flag_mata_kuliah
     global flag_ubah
     global flag_selesai
     global flag_tambah_task
-    global flag_tugas
-    global flag_kata_penting
     global flag_task_id
     global flag_date_1
     global flag_invalid
@@ -221,7 +229,7 @@ def process_user_chat(user_chat):
             return task_deadline_chatbuilder(tasks)
         else:
             # return ("Perintah tidak dikenal")
-            return typo_solver(user_chat,kamus_typo)
+            return typo_solver(user_chat, kamus_typo)
 
     # Menampilkan deadline N minggu ke depan
     elif(flag_minggu):
