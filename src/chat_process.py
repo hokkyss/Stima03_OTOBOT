@@ -1,6 +1,6 @@
 import re as regex
 from util import *
-from string_matching import *
+from classes import *
 from string_matching_algorithm import *
 
 global flag_deadline
@@ -15,7 +15,7 @@ global flag_ubah
 global flag_selesai
 global flag_tambah_task
 global flag_task_id
-global flag_date_1
+global flag_one_date
 global flag_invalid
 
 def process_string(string):
@@ -36,7 +36,7 @@ def process_string(string):
     global flag_selesai
     global flag_tambah_task
     global flag_task_id
-    global flag_date_1
+    global flag_one_date
     global flag_invalid
 
     # Flag deadline akan aktif apabila terdapat kata "deadline" di string
@@ -47,9 +47,9 @@ def process_string(string):
     all_date = Date.find_all_dates_in(string)
     if(len(all_date) == 2):
         flag_antara = True
-    # flag_date_1 akan aktif apabila ada satu tanggal di string
+    # flag_one_date akan aktif apabila ada satu tanggal di string
     elif (len(all_date) == 1):
-        flag_date_1 = True
+        flag_one_date = True
     elif (len(all_date) >= 3):
         flag_invalid = True
 
@@ -112,8 +112,10 @@ def process_string(string):
         flag_selesai = True
     
     # flag task akan aktif apabila objek task bisa di generate dari string
-    task = Task.convert(string)
-    if(task != None):
+    flag_tambah_task = Task.convert(string)
+    if(flag_tambah_task is None):
+        flag_tambah_task = False
+    else:
         flag_tambah_task = True
     
     # flag kata_penting akan aktif apabila ada kata penting di string
@@ -127,10 +129,30 @@ def process_string(string):
     elif (len(kmpMatch_getAllMatchPattern(string, KATA_PENTING, True)) > 1):
         flag_invalid = True
     
-    if(flag_minggu and (flag_hari or flag_hari_ini)):
+    # waktu tidak kontradiksi
+    if(flag_minggu and (flag_hari or flag_hari_ini or flag_antara)):
         flag_invalid = True
-    if(flag_hari and flag_hari_ini):
+    if(flag_hari and (flag_hari_ini or flag_antara)):
         flag_invalid = True
+    if(flag_hari_ini and flag_antara):
+        flag_invalid = True
+
+    # update dan selesaikan tidak fleksibel
+    if(flag_ubah and flag_selesai):
+        flag_invalid = True
+    if((flag_ubah or flag_selesai) and (flag_antara or flag_hari_ini or flag_hari or flag_minggu)):
+        flag_invalid = True
+    if((flag_ubah or flag_selesai) and flag_tambah_task):
+        flag_invalid = True
+    if((flag_ubah or flag_selesai) and flag_kata_penting):
+        flag_invalid = True
+    if(flag_selesai and flag_one_date):
+        flag_invalid = True
+
+    # tambah task tidak fleksibel
+    if(flag_tambah_task and (flag_antara or flag_hari_ini or flag_hari or flag_minggu or flag_ubah or flag_selesai or flag_task_id)):
+        flag_invalid = True
+    
 
 def process_user_chat(user_chat):
     global flag_deadline
@@ -145,7 +167,7 @@ def process_user_chat(user_chat):
     global flag_selesai
     global flag_tambah_task
     global flag_task_id
-    global flag_date_1
+    global flag_one_date
     global flag_invalid
 
     # Inisialisasi flag false
@@ -161,7 +183,7 @@ def process_user_chat(user_chat):
     flag_tugas = False
     flag_kata_penting = False
     flag_task_id = False
-    flag_date_1 = False
+    flag_one_date = False
     flag_invalid = False
     
     # Detektor typo
@@ -170,7 +192,7 @@ def process_user_chat(user_chat):
     kata_keyword = ["deadline", "hari", "minggu", "task", "undur", "ganti", "update", "selesai", "kelar", "--showAllTask", "--resetTask","--resetChat","--help","--createTask","--createChat"]
     kamus_typo = kata_penting + kata_keyword + nama_bulan
 
-    typo = typo_solver(user_chat,kamus_typo, True)
+    typo = typo_solver(user_chat, kamus_typo, True)
     if typo != "Tidak ada typo":
         return typo
 
@@ -178,9 +200,8 @@ def process_user_chat(user_chat):
     process_string(user_chat)
     
     # Hitung berapa banyak flag yang aktif
-    listOfFlag = [flag_deadline, flag_antara, flag_hari_ini,  flag_hari, flag_minggu, flag_mata_kuliah, flag_ubah, flag_selesai, flag_tambah_task, flag_tugas, flag_kata_penting, flag_task_id, flag_date_1]
+    listOfFlag = [flag_deadline, flag_antara, flag_hari_ini,  flag_hari, flag_minggu, flag_mata_kuliah, flag_ubah, flag_selesai, flag_tambah_task, flag_tugas, flag_kata_penting, flag_task_id, flag_one_date]
     numOfActiveFlag = listOfFlag.count(True)
-    
 
     if(flag_invalid):
         return "Perintah tidak dikenal, gunakan --help untuk <br> melihat command yang bisa dilakukan"
@@ -341,7 +362,7 @@ def process_user_chat(user_chat):
     
     
     # Mengubah deadline suatu task
-    elif(flag_ubah and flag_task_id and flag_date_1):
+    elif(flag_ubah and flag_task_id and flag_one_date):
         dates = Date.find_all_dates_in(user_chat)
         date = dates[0]
         
@@ -362,10 +383,10 @@ def process_user_chat(user_chat):
     else:
         print(listOfFlag)
         # return ("Perintah tidak dikenal")
-        return typo_solver(user_chat,kamus_typo)
+        return typo_solver(user_chat, kamus_typo)
         
         
-def typo_solver(user_chat, kamus, checker = False):
+def typo_solver(user_chat, kamus, checker=False):
     """Melakukan pengubahan kata yang typo dengan Levenshtein distance
     Args:
         user_chat (String): chat yang dimasukkan user
@@ -380,14 +401,14 @@ def typo_solver(user_chat, kamus, checker = False):
     found_typo = False
     for i in range(len(user_words)):
         for kata in kamus:
-            ratio = levenshtein_ratio(user_words[i],kata)
+            ratio = levenshtein_ratio(user_words[i], kata)
             if (ratio > 0.7 and ratio < 1):
                 user_words[i] = kata
                 found_typo = True
     final_words = " ".join(user_words)
     
     if found_typo:
-        return ("Mungkin maksud kamu:<br>"+final_words)
+        return ("Mungkin maksud kamu:<br>" + final_words)
     else:
         if checker:
             return ("Tidak ada typo")
