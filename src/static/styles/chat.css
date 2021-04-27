@@ -136,8 +136,8 @@ h4.card-title {
     margin: 4px 0;
     background-color: #f5f6f7;
     border-radius: 3px;
-    font-weight: 100;
-    color: #9b9b9b
+    font-weight: 400;
+    color: black
 }
 
 .media>* {
@@ -197,7 +197,7 @@ h4.card-title {
     float: right;
     clear: right;
     background-color: #2979ff;
-    color: #fff
+    color: white
 }
 
 .media-chat .media-body p {
