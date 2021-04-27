@@ -154,13 +154,25 @@ def process_user_chat(user_chat):
     flag_task_id = False
     flag_date_1 = False
     flag_invalid = False
+    
+    # Detektor typo
+    kata_penting = [x.lower() for x in KATA_PENTING]
+    nama_bulan = ["januari", "februari", "maret", "april", "mei", "juni", "juli", "agustus", "september", "oktober", "november", "desember"]
+    kata_keyword = ["deadline", "hari", "minggu", "task", "undur", "ganti", "update", "selesai", "kelar", "--showAllTask", "--resetTask","--resetChat"]
+    kamus_typo = kata_penting + kata_keyword + nama_bulan
+
+    typo = typo_solver(user_chat,kamus_typo, True)
+    if typo != "Tidak ada typo":
+        return typo
 
     # Melakukan identifikasi flag
     process_string(user_chat)
     
+    
     # Hitung berapa banyak flag yang aktif
     listOfFlag = [flag_deadline, flag_antara, flag_hari_ini,  flag_hari, flag_minggu, flag_mata_kuliah, flag_ubah, flag_selesai, flag_tambah_task, flag_tugas, flag_kata_penting, flag_task_id, flag_date_1]
     numOfActiveFlag = listOfFlag.count(True)
+    
 
     if(flag_invalid):
         return "Perintah tidak dikenal"
@@ -208,7 +220,8 @@ def process_user_chat(user_chat):
             print(tasks)
             return task_deadline_chatbuilder(tasks)
         else:
-            return ("Perintah tidak dikenal")
+            # return ("Perintah tidak dikenal")
+            return typo_solver(user_chat,kamus_typo)
 
     # Menampilkan deadline N minggu ke depan
     elif(flag_minggu):
@@ -232,7 +245,8 @@ def process_user_chat(user_chat):
             print(tasks)
             return task_deadline_chatbuilder(tasks)
         else:
-            return ("Perintah tidak dikenal")
+            # return ("Perintah tidak dikenal")
+            return typo_solver(user_chat,kamus_typo)
         
     # Menampilkan deadline N hari ke depan
     elif(flag_hari):
@@ -256,7 +270,8 @@ def process_user_chat(user_chat):
             print(tasks)
             return task_deadline_chatbuilder(tasks)
         else:
-            return ("Perintah tidak dikenal")
+            # return ("Perintah tidak dikenal")
+            return typo_solver(user_chat,kamus_typo)
         
     # Menampilkan deadline hari ini
     elif(flag_hari_ini):
@@ -275,7 +290,8 @@ def process_user_chat(user_chat):
             print(tasks)
             return task_deadline_chatbuilder(tasks)
         else :
-            return ("Perintah tidak dikenal")
+            # return ("Perintah tidak dikenal")
+            return typo_solver(user_chat,kamus_typo)
 
     # Menampilkan semua deadline jenis tugas dari mata kuliah tertentu
     # Yang nyala flag_deadline, flag_tugas, flag_kata_penting dan flag_mata_kuliah
@@ -329,9 +345,38 @@ def process_user_chat(user_chat):
 
     else:
         print(listOfFlag)
-        return ("Perintah tidak dikenal")
+        # return ("Perintah tidak dikenal")
+        return typo_solver(user_chat,kamus_typo)
         
         
+def typo_solver(user_chat, kamus, checker = False):
+    """Melakukan pengubahan kata yang typo dengan Levenshtein distance
+    Args:
+        user_chat (String): chat yang dimasukkan user
+        kamus (String): kamus kata yang akan diperiksa
+        checker (Boolean): apakah suatu penjaga typo sebelum masuk check flag
+    Returns:
+        (String): chat yang sudah dibenerin typonya
+    """
+    
+    # Ubah menjadi setiap kata
+    user_words = regex.split("\s+", user_chat)
+    found_typo = False
+    for i in range(len(user_words)):
+        for kata in kamus:
+            ratio = levenshtein_ratio(user_words[i],kata)
+            if (ratio > 0.75 and ratio < 1):
+                user_words[i] = kata
+                found_typo = True
+    final_words = " ".join(user_words)
+    
+    if found_typo:
+        return ("Mungkin maksud kamu:<br>"+final_words)
+    else:
+        if checker:
+            return ("Tidak ada typo")
+        else:
+            return ("Perintah tidak dikenal")
         
 # MAIN PROGRAM
 # while(True):
