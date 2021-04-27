@@ -61,7 +61,8 @@ def process_string(string):
         flag_hari_ini = True
     
     if(not flag_hari_ini):
-        # flag hari akan aktif apabila ada kata "hari"(not case sensitive) di string
+        # flag hari akan aktif apabila ada kata "N hari"(not case sensitive) di string
+        # flag_hari = regex.findall("[Hh][Aa][Rr][Ii]", string)
         flag_hari = regex.findall("\d+\s*[Hh]ari", string)
         if(flag_hari == []):
             flag_hari = False
@@ -172,6 +173,7 @@ def process_user_chat(user_chat):
     typo = typo_solver(user_chat,kamus_typo, True)
     if typo != "Tidak ada typo":
         return typo
+    
 
     # Melakukan identifikasi flag
     process_string(user_chat)
@@ -373,7 +375,7 @@ def typo_solver(user_chat, kamus, checker = False):
     for i in range(len(user_words)):
         for kata in kamus:
             ratio = levenshtein_ratio(user_words[i],kata)
-            if (ratio > 0.75 and ratio < 1):
+            if (ratio > 0.7 and ratio < 1):
                 user_words[i] = kata
                 found_typo = True
     final_words = " ".join(user_words)
