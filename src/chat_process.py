@@ -189,26 +189,24 @@ def process_user_chat(user_chat):
     # Detektor typo
     kata_penting = [x.lower() for x in KATA_PENTING]
     nama_bulan = ["januari", "februari", "maret", "april", "mei", "juni", "juli", "agustus", "september", "oktober", "november", "desember"]
-    kata_keyword = ["deadline", "hari", "minggu", "task", "undur", "ganti", "update", "selesai", "kelar", "--showAllTask", "--resetTask","--resetChat"]
+    kata_keyword = ["deadline", "hari", "minggu", "task", "undur", "ganti", "update", "selesai", "kelar", "--showAllTask", "--resetTask","--resetChat","--help","--createTask","--createChat"]
     kamus_typo = kata_penting + kata_keyword + nama_bulan
 
     typo = typo_solver(user_chat, kamus_typo, True)
     if typo != "Tidak ada typo":
         return typo
-    
 
     # Melakukan identifikasi flag
     process_string(user_chat)
-    
     
     # Hitung berapa banyak flag yang aktif
     listOfFlag = [flag_deadline, flag_antara, flag_hari_ini,  flag_hari, flag_minggu, flag_mata_kuliah, flag_ubah, flag_selesai, flag_tambah_task, flag_tugas, flag_kata_penting, flag_task_id, flag_one_date]
     numOfActiveFlag = listOfFlag.count(True)
 
     if(flag_invalid):
-        return "Perintah tidak dikenal"
+        return "Perintah tidak dikenal, gunakan --help untuk <br> melihat command yang bisa dilakukan"
 
-    # General command for Task
+    # General command for application
     if(user_chat == "--showAllTask"):
         print(get_all_task())
         return task_deadline_completeChatbuilder(get_all_task())
@@ -218,6 +216,14 @@ def process_user_chat(user_chat):
     elif(user_chat == "--resetChat"):
         dell_all_chat()
         return ""
+    elif (user_chat == "--createTask"):
+        create_tabel_task()
+        return "tabel task berhasil dibuat"
+    elif (user_chat == "--createChat"):
+        create_tabel_chat()
+        return "tabel chat berhasil dibuat"
+    elif (user_chat == "--help"):
+        return help_chatbuilder()
 
     # Menambah task baru
     elif(flag_tambah_task):
@@ -407,7 +413,7 @@ def typo_solver(user_chat, kamus, checker=False):
         if checker:
             return ("Tidak ada typo")
         else:
-            return ("Perintah tidak dikenal")
+            return ("Perintah tidak dikenal, gunakan --help untuk <br> melihat command yang bisa dilakukan")
         
 # MAIN PROGRAM
 # while(True):
