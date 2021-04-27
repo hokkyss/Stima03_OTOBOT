@@ -26,228 +26,36 @@
     {% block after_style %} {% endblock%}
   </head>
 
-  <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
-      <div class="container">
-        <!-- Brand -->
-        <a class="navbar-brand" href="/">
-          <img
-            alt="Image placeholder"
-            src="{{ url_for('static',filename='images/Logo.png') }}"
-            id="navbar-logo"
-            style="max-width: 150px"
-          />
-        </a>
-        <!-- Toggler -->
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarCollapse"
-          aria-controls="navbarCollapse"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <!-- Collapse -->
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-          <ul class="navbar-nav mt-4 mt-lg-0 ml-auto">
-            <li class="nav-item mx-3">
-              <a class="nav-link" href="#hero">Home</a>
-            </li>
-            <li class="nav-item mx-3">
-              <a class="nav-link" href="#features">Features</a>
-            </li>
-            <li class="nav-item mx-3">
-              <a class="nav-link" href="#chat_application">Chat Application</a>
-            </li>
-            <li class="nav-item mx-3">
-              <a class="nav-link" href="#about_us">About Us</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-    <div
-      class="page-content page-container"
-      id="page-content"
-      style="background-color: #e0effa"
-    >
-      <!-- ======= Hero Section ======= -->
-      <section id="hero" class="hero d-flex align-items-center">
-        <div class="padding">
-          <div class="container">
-            <div class="row">
-              <div class="col-lg-6 d-flex flex-column justify-content-center">
-                <h1>Otobot Agenda memberikan solusi untuk mencatat jadwal</h1>
-                <h2>
-                  Otobot Agenda adalah chatbot yang terlatih untuk mengatasi
-                  masalah anda
-                </h2>
-                <div class="text-center text-lg-start">
-                  <a
-                    href="#chat_application"
-                    class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center"
-                  >
-                    <span>Coba Chatbot</span>
-                    <i class="fa fa-arrow-right"></i>
-                  </a>
+    <body>
+        <div class="page-content page-container" id="page-content" style="background-color: #e0effa;">
+            <!-- ======= Chat Section ======= -->
+            <section id="chat_application" class="features" style="padding: 12px !important;">
+                <header class="section-header" style="padding-bottom:  20px !important;">
+                    <h2>Chat Application</h2>
+                    <p>Demonstrasi Otobot Agenda</p>
+                </header>
+                <div class="row container d-flex justify-content-center mr-auto ml-auto">
+                    <div class="col-12 col-md-6">
+                        {% block content %}
+                        {% endblock %}
+                    </div>
                 </div>
-              </div>
-              <div class="col-lg-6 hero-img">
-                <img
-                  src="{{ url_for('static',filename='images/icoBotLarge.png') }}"
-                  class="img-fluid w-75 mt-3"
-                  alt=""
-                />
-              </div>
+            </section>
+            <div class="container">
+                <div class="row justify-content-center mb-4">
+                    <div class="col-4">
+                        <a href="/" class="btn btn-primary btn-block">Back to home page</a>
+                    </div>
+                </div>
             </div>
-          </div>
+            <!-- ======= End Chat ======= -->
         </div>
-      </section>
-      <!-- End Hero -->
-
-      <!-- ======= Features Section ======= -->
-      <section id="features" class="features bg-white">
-        <div class="container">
-          <header class="section-header">
-            <h2>Features</h2>
-            <p>Otobot Agenda memiliki banyak fitur</p>
-          </header>
-          <div class="row">
-            <div class="col-lg-5">
-              <img
-                src="{{ url_for('static',filename='images/feature.jpg') }}"
-                class="img-fluid"
-                alt=""
-              />
-            </div>
-            <div class="col-lg-7 mt-5 mt-lg-0 d-flex">
-              <div class="row align-self-center">
-                <div class="col-md-6 py-4">
-                  <div class="feature-box d-flex align-items-center">
-                    <span><i class="fa fa-check"></i></span>
-                    <h3>
-                      Menyimpan task berupa kuis, tucil, tubes, ujian, tugas,
-                      dan praktikum
-                    </h3>
-                  </div>
-                </div>
-                <div class="col-md-6 py-4">
-                  <div class="feature-box d-flex align-items-center">
-                    <i class="fa fa-check"></i>
-                    <h3>Menambah task baru</h3>
-                  </div>
-                </div>
-                <div class="col-md-6 py-4">
-                  <div class="feature-box d-flex align-items-center">
-                    <i class="fa fa-check"></i>
-                    <h3>
-                      Menampilkan daftar task dengan indikator waktu atau jenis
-                    </h3>
-                  </div>
-                </div>
-                <div class="col-md-6 py-4">
-                  <div class="feature-box d-flex align-items-center">
-                    <i class="fa fa-check"></i>
-                    <h3>Menampilkan deadline/daftar deadline</h3>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="feature-box d-flex align-items-center">
-                    <i class="fa fa-check"></i>
-                    <h3>Merubah tanggal task</h3>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="feature-box d-flex align-items-center">
-                    <i class="fa fa-check"></i>
-                    <h3>Menyelesaikan task</h3>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      <!-- ======= End Features  ======= -->
-
-      <!-- ======= Chat Section ======= -->
-      <section id="chat_application" class="features">
-        <header class="section-header">
-          <h2>Chat Application</h2>
-          <p>Demonstrasi Otobot Agenda</p>
-        </header>
-        <div
-          class="row container d-flex justify-content-center mr-auto ml-auto"
-        >
-          <div class="col-12 col-md-6">{% block content %} {% endblock %}</div>
-        </div>
-      </section>
-      <!-- ======= End Chat ======= -->
-
-      <!-- ======= About_us Section ======= -->
-      <section id="about_us" class="team">
-        <div class="container">
-          <header class="section-header">
-            <h2>About Us</h2>
-            <p>Pekerja Rodi Tubes Stima :D</p>
-          </header>
-          <div class="row py-4 justify-content-center">
-            <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
-              <div class="member">
-                <div class="member-img">
-                  <img
-                    src="{{ url_for('static',filename='images/reihan.jpg') }}"
-                    class="img-fluid"
-                    alt=""
-                  />
-                  <div class="social">
-                    <a href="https://www.linkedin.com/in/reihan-andhika"
-                      ><i class="fab fa-linkedin"></i
-                    ></a>
-                    <a href="https://www.facebook.com/reihan.andhika.5"
-                      ><i class="fab fa-facebook-square"></i
-                    ></a>
-                    <a href="https://www.instagram.com/andhikarei"
-                      ><i class="fab fa-instagram"></i
-                    ></a>
-                  </div>
-                </div>
-                <div class="member-info">
-                  <h4>Reihan Andhika Putra</h4>
-                  <span>13519043</span>
-                  <p>Pemuda tampan dengan mimpi yang tinggi.</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
-              <div class="member">
-                <div class="member-img">
-                  <img
-                    src="{{ url_for('static',filename='images/hokki.jpg') }}"
-                    class="img-fluid"
-                    alt=""
-                  />
-                  <div class="social">
-                    <a
-                      href="https://www.linkedin.com/in/hokki-suwanda-0971b0192/"
-                      ><i class="fab fa-linkedin"></i
-                    ></a>
-                    <a href="https://www.facebook.com/hokkyss/"
-                      ><i class="fab fa-facebook-square"></i
-                    ></a>
-                    <a href="https://www.instagram.com/hokkyss/"
-                      ><i class="fab fa-instagram"></i
-                    ></a>
-                  </div>
-                </div>
-                <div class="member-info">
-                  <h4>Hokki Suwanda</h4>
-                  <span>13519143</span>
-                  <p>Early carry dan late carried kita :D.</p>
+        <footer>
+            <div class="div border-top pt-4 pb-4">
+                <div class="row justify-content-center align-items-center">
+                    <div class="col-auto text-gray-500 font-weight-light">
+                        2019 Otobot Agenda @ Tubes 3 Strategi Algoritma
+                    </div>
                 </div>
               </div>
             </div>

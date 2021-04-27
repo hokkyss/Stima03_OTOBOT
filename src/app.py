@@ -30,8 +30,13 @@ def handleMessage(myMsg):
 @app.route("/")
 def index():
 	# Merender halaman utama
+	return render_template('index.html')
+
+@app.route("/chat")
+def chat():
+	# Merender halaman chat
 	messages = get_all_chat()
-	return render_template('index.html', messages=messages)
+	return render_template('chat.html', messages=messages)
 
 # Menjalankan socketio
 if __name__ == '__main__':
