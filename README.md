@@ -1,7 +1,7 @@
 # OTOBOT
 ## Penerapan String Matching dan Regular Expression dalam Pembangunan Deadline Reminder Assistant Semester II Tahun 2020/2021
 
-### *Tugas Besar I IF2211 Strategi Algoritma*
+### Tugas Besar III IF2211 Strategi Algoritma
 
 *Program Studi Teknik Informatika* <br />
 *Sekolah Teknik Elektro dan Informatika* <br />
@@ -27,8 +27,8 @@ Regular Expression (Regex) adalah sebuah notasi yang dapat digunakan untuk mende
 - [Python 3](https://www.python.org/downloads/)
 
 ## Link Deployment
-[OTOBOT](https://otobotagenda.herokuapp.com/) <br />
-Apabila terjadi error seperti gagal menambahkan task, ketik perintah berikut pada ChatBot
+[OTOBOT - Otomatic Task Organizer Bot](https://otobotagenda.herokuapp.com/) <br /> <br />
+Note : Apabila terjadi error seperti gagal menambahkan task, ketik perintah berikut pada ChatBot
 ```
 createTask
 createChat
