@@ -18,6 +18,9 @@ Regular Expression (Regex) adalah sebuah notasi yang dapat digunakan untuk mende
 ## Requirements
 - [Python 3](https://www.python.org/downloads/)
 
+## Link Deployment
+`https://otobotagenda.herokuapp.com/`
+
 ## Installation And Run
 Clone the repository
 ```bash
@@ -26,13 +29,13 @@ cd src
 ```
 ### Automatic Setup
 #### First Time Setup
-1. Open setup.bat
+1. Open `setup.bat`
 2. Wait until the installation is finished
 3. The setup will automatically open the web browser
 4. If the page failed to load, wait a moment then refresh the page
 
 #### Run
-1. Open run.bat
+1. Open `run.bat`
 2. It will automatically open the web browser
 3. If the page failed to load, wait a moment then refresh the page
 
