@@ -6,9 +6,10 @@ from Sastrawi.StopWordRemover.StopWordRemoverFactory import StopWordRemoverFacto
 # factory = StopWordRemoverFactory()
 newStopFactory = StopWordRemoverFactory().get_stop_words()
 newStopFactory.remove("sampai")
-newStopFactory.append("tanggal")
+newStopFactory.remove("dan")
 newStopFactory.append("deadline")
 newStopFactory.append("mengenai")
+newStopFactory.append("tanggal")
 stopword = StopWordRemover(ArrayDictionary(newStopFactory))
 
 # Regex untuk bulan
@@ -224,6 +225,7 @@ class Task:
         # Asumsi topik selalu berada diantara nama matkul dan tanggal 
         noStopword = stopword.remove(string)
         topik = noStopword[kmpMatch(noStopword, mata_kuliah, True) + len(mata_kuliah) + 1 : kmpMatch(noStopword, stringTanggal, True)]
+        topik = stopword.remove(topik)
         if (len(topik) <= 1):
             return None
         return Task(jenis, mata_kuliah, tanggal, topik)

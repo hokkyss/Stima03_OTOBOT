@@ -139,7 +139,7 @@ def get_deadline(mata_kuliah, jenis_tugas = None):
     cursor = db.cursor()
     mata_kuliah = str(mata_kuliah).upper()
     try:
-        sql = "SELECT topik, tanggal FROM task WHERE Mata_Kuliah = '" + mata_kuliah + "'"
+        sql = "SELECT topik, tanggal, jenis FROM task WHERE Selesai = 0 and Mata_Kuliah = '" + mata_kuliah + "'"
         if (jenis_tugas != None):
             sql = sql + " AND (Jenis = '" + jenis_tugas + "')"
         cursor.execute(sql)
@@ -161,7 +161,8 @@ def update_deadline(ID,date):
             cursor.execute(sql)
             print("Sukses merubah deadline task " + str(ID) + " menjadi " + date)
             db.commit()
-            return ("Sukses merubah deadline task " + str(ID) + " menjadi " + date)
+            dt = datetime.datetime.strptime(str(date), '%Y-%m-%d').strftime('%d/%m/%Y')
+            return ("Sukses merubah deadline task " + str(ID) + " menjadi " + dt)
         else:
             print("Task tidak dikenali")
             return ("Tidak ada task dengan id tersebut")
@@ -284,20 +285,20 @@ def task_deadline_Shortchatbuilder(listOfTaskQuery):
     else:
         result = "[Berhasil mendapatkan daftar]"
         for count, task in enumerate(listOfTaskQuery, start=1):
-            result = result + "<br>"+str(count) +". " +str(task[1])+" - "+ task[0]
+            result = result + "<br>"+str(count) +". " +str(task[1])+" - "+ task[0] + " - " + task[2]
     return result
 
 def help_chatbuilder():
     return (
     '''
     
-    Utility Command<br>
-    --help : Menampilkan list of command dan penjelasan<br>
-    --createTask : Membuat tabel task (untuk emergency)<br>
-    --createChat : Membuat tabel chat (untuk emergency)<br>
-    --resetChat : Merefresh chat<br>
-    --resetTask : Merefresh seluruh task<br>
-    --showAllTask : Menampilkan semua task<br>
+    <b>Utility Command</b>(not case sensitive)<br>
+    <b>--help</b> : Menampilkan list of command dan penjelasan<br>
+    <b>--createTask</b> : Membuat tabel task (untuk emergency)<br>
+    <b>--createChat</b> : Membuat tabel chat (untuk emergency)<br>
+    <b>--resetChat</b> : Merefresh chat<br>
+    <b>--resetTask</b> : Merefresh seluruh task<br>
+    <b>--showAllTask</b> : Menampilkan semua task<br>
     <br>
     KATA_PENTING = kuis, ujian, tucil, tubes, praktikum, dan tugas<br>
     KODE_MATKUL = Dua buah huruf (a-z|A-Z) diikuti 4 angka (0-9) contoh IF2100<br>
@@ -329,7 +330,7 @@ def help_chatbuilder():
        Usage: "deadline" + KATA_TUGAS(1) (Hanya tucil, tubes, tugas)<br>
        KATA_TUGAS(1) (Hanya kuis, ujian, praktikum)<br> 
     6) Point no (1-4) dapat dikombinasikan dengan point no (5)<br>
-       contoh "deadline" + JENIS_TUGAS(1) + TANGGAL(2)<br>
+       contoh <b>"deadline" + JENIS_TUGAS(1) + TANGGAL(2)</b><br>
        Note : Perhatikan bahwa apabila jenis tugas yang dipilih<br>
        termasuk kuis, ujian, praktikum maka kata "deadline"<br>
        harus dihilangkan<br>
