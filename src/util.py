@@ -301,46 +301,55 @@ def help_chatbuilder():
     <br>
     KATA_PENTING = kuis, ujian, tucil, tubes, praktikum, dan tugas<br>
     KODE_MATKUL = Dua buah huruf (a-z|A-Z) diikuti 4 angka (0-9) contoh IF2100<br>
-    TANGGAL = 19-02-2021 atau 19 Februari 2021, bisa dipisahkan dengan ',','/' atau ' '<br>
+    TANGGAL mengikuti format yang terdapat di contoh sebagai berikut
+        - 19-02-2021<br>
+        - 19-02-21<br>
+        - 19/02/2021<br>
+        - 19/02/21<br>
+        - 19 Februari 2021<br>
+        - 19 Feb 2021<br>
+        - 19 Februari 21<br>
+        - 19 Feb 21<br>
     note: KATA_PENTING(1) berarti keyword KATA_PENTING sebanyak satu<br>
     <br>
     List of Command :<br>
-    A) Menambah Task<br> 
-    f: KATA_PENTING(1) + KODE_MATKUL(1) + TOPIK + TANGGAL<br>
+    A) Menambah Task<br>
+    Usage: KATA_PENTING(1) + KODE_MATKUL(1) + TOPIK + TANGGAL<br>
     <br>
     B) Menampilkan Daftar Deadline<br>
     1) Periode<br>
-       f: "deadline" + TANGGAL(2)<br> 
+       Usage: "deadline" + TANGGAL(2)<br> 
     2) N hari ke depan<br>
-       f: "deadline" + N "hari" (N muncul tepat sebelum "hari")<br>
+       Usage: "deadline" + N "hari" (N muncul tepat sebelum "hari")<br>
     3) N minggu ke depan<br>
-       f: "deadline" + N "minggu" (N muncul tepat sebelum "minggu")<br>
+       Usage: "deadline" + N "minggu" (N muncul tepat sebelum "minggu")<br>
     4) Hari ini<br>
-       f: "deadline" + "hari_ini"<br>
+       Usage: "deadline" + "hari_ini"<br>
     5) Jenis Task (Semua deadline)<br>
-       f: "deadline" + KATA_TUGAS(1) (Hanya tucil, tubes, tugas)<br>
+       Usage: "deadline" + KATA_TUGAS(1) (Hanya tucil, tubes, tugas)<br>
        KATA_TUGAS(1) (Hanya kuis, ujian, praktikum)<br> 
     6) Point no (1-4) dapat dikombinasikan dengan point no (5)<br>
        contoh "deadline" + JENIS_TUGAS(1) + TANGGAL(2)<br>
        Note : Perhatikan bahwa apabila jenis tugas yang dipilih<br>
-       termasuk kuis, ujian, praktikum maka kata "deadline"<br> 
+       termasuk kuis, ujian, praktikum maka kata "deadline"<br>
        harus dihilangkan<br>
     7) Semua deadline<br>
-       f: "deadline"<br>
+       Usage: "deadline"<br>
     <br>
     C) Menampilkan Deadline Task matkul tertentu<br>
-       f: "deadline" + JENIS_TUGAS(1) + KODE_MATKUL(1)<br>
+       Usage: "deadline" + JENIS_TUGAS(1) + KODE_MATKUL(1)<br>
        JENIS_TUGAS yang diperbolehkan adalah tucil, tubes, dan tugas<br>
     <br>
     D) Update tanggal task<br>
        KATA_UPDATE = undur, tunda, maju, ubah, ganti, dan update<br>
-       f: KATA_UPDATE(1) + TANGGAL(1) + ID_TASK(1)<br>
+       Usage: KATA_UPDATE(1) + TANGGAL(1) + ID_TASK(1)<br>
     <br>
     E) Menyelesaikan task<br>
        KATA_SELESAI = selesai,beres,tamat, dan kelar<br>
-       f: KATA_SELESAI(1) + ID_TASK(1)<br>
+       Usage: KATA_SELESAI(1) + ID_TASK(1)<br>
     '''    
     )
+
 def main():
     # Isi main program
     # Init + hapus tabel
