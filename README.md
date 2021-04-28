@@ -28,13 +28,14 @@ Regular Expression (Regex) adalah sebuah notasi yang dapat digunakan untuk mende
 
 ## Link Deployment
 [OTOBOT - Otomatic Task Organizer Bot](https://otobotagenda.herokuapp.com/) <br /> <br />
-Note : Apabila terjadi error seperti gagal menambahkan task, ketik perintah berikut pada ChatBot
+Note : Apabila terjadi error seperti gagal menambahkan task padahal format task sudah benar ataupun history chat tidak tersimpan saat refresh, ketik perintah berikut pada ChatBot
 ```
-createTask
-createChat
-resetChat
-resetTask
+--createTask
+--createChat
+--resetChat
+--resetTask
 ```
+kalo heroku lagi down bisa run lokal saja :D
 
 ## Installation And Run
 Clone the repository
