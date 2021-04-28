@@ -19,7 +19,14 @@ Regular Expression (Regex) adalah sebuah notasi yang dapat digunakan untuk mende
 - [Python 3](https://www.python.org/downloads/)
 
 ## Link Deployment
-`https://otobotagenda.herokuapp.com/`
+[OTOBOT](https://otobotagenda.herokuapp.com/)
+Apabila terjadi error seperti gagal menambahkan task, ketik perintah berikut pada ChatBot
+```
+createTask
+createChat
+resetChat
+resetTask
+```
 
 ## Installation And Run
 Clone the repository
