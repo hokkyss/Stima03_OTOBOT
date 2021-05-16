@@ -65,3 +65,15 @@ pip install -r requirements.txt
 python app.py
 ```
 Then open your web browser and go to [localhost:5000](http://localhost:5000)
+
+## Screen Capture Homepage
+![Screenshot](img/Home.PNG)
+![Screenshot](img/Feature.PNG)
+![Screenshot](img/Creator.PNG)
+
+## Screen Capture Chatbot
+![Screenshot](img/Chat1.PNG)
+![Screenshot](img/Chat2.PNG)
+![Screenshot](img/Chat3.PNG)
+![Screenshot](img/Chat4.PNG)
+![Screenshot](img/Chat5.PNG)
